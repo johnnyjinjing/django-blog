@@ -3,6 +3,7 @@ django-blog/setting_secret.py
 
 # database
 db.sqlite3
+*my.cnf
 
 ### Python
 
