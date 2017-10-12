@@ -1,9 +1,8 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
-
+from django.template.defaultfilters import slugify
 
 class Category(models.Model):
     """ Catagory of post
@@ -51,10 +50,10 @@ class Post(models.Model):
     """
 
     author = models.ForeignKey(User)
-    title = models.CharField(max_length=100, unique=True)
-    body = models.TextField()
-    created_time = models.DateTimeField()
-    modified_time = models.DateTimeField()
+    title = models.CharField(max_length=100, unique=True, default=None)
+    body = models.TextField(blank=True)
+    created_time = models.DateTimeField(auto_now_add=True)
+    modified_time = models.DateTimeField(auto_now=True)
     published = models.BooleanField(default=False)
     category = models.ForeignKey(Category)
     tags = models.ManyToManyField(Tag, blank=True)

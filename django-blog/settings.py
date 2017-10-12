@@ -79,6 +79,7 @@ WSGI_APPLICATION = 'django-blog.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+        'NAME': "djangoblog",
         'OPTIONS': {
             'read_default_file': os.path.join(BASE_DIR, 'my.cnf'),
         },
