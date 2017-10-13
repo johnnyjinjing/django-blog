@@ -30,6 +30,11 @@ class Tag(models.Model):
     """
 
     name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Tag, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.name

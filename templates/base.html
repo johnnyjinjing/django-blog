@@ -62,7 +62,7 @@
                             {% for category in category_list %}
                                 {% if category.num_posts %}
                                     <li>
-                                        <a href="#">{{ category.name }} ({{ category.num_posts }})</a>
+                                        <a href="{% url 'blog:category' category.slug %}">{{ category.name }} ({{ category.num_posts }})</a>
                                     </li>
                                 {% endif %}
                             {% endfor %}
@@ -94,7 +94,7 @@
                             {% for archive in archive_list %}
                                 {% if archive.num_posts %}
                                     <li>
-                                        <a href="#">{{ archive.date | date:"Y.m"}} ({{ archive.num_posts }})</a>
+                                        <a href="{% url 'blog:archive' archive.date|date:'Y' archive.date|date:'m' %}">{{ archive.date | date:"Y.m"}} ({{ archive.num_posts }})</a
                                     </li>
                                 {% endif %}
                             {% endfor %}
