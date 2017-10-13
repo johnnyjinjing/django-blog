@@ -1,0 +1,173 @@
+/* theme color */
+:root {
+    --theme: #289CCB;
+    --theme-analog-1: #2866CB;
+    --theme-analog-2: #28CBC4;
+    --theme-analog-3: #75C4E4;
+    --theme-analog-4: #7A7A7A;
+    --theme-analog-5: #000000;
+    --theme-complementary: #CB5728;
+    --theme-splitcomplementary-1: #CB284B;
+    --theme-splitcomplementary-2: #CBA928;
+}
+
+/* background */
+.color-theme {
+    background-color: var(--theme);
+}
+
+/* button */
+.btn-primary {
+    background-color: var(--theme);
+}
+
+.btn-primary:hover {
+    background-color: var(--theme);
+}
+
+/* font color */
+.color-theme-font {
+    color: var(--theme);
+}
+
+/* link color */
+a {
+    color: inherit;
+}
+
+a:hover {
+    text-decoration: none;
+    color: var(--theme);
+}
+
+/* fixed navbar */
+body {
+    padding-top: 54px;
+}
+
+@media (min-width: 992px) {
+    body {
+        padding-top: 56px;
+    }
+}
+
+/* footer */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 60px;
+    width: 100%;
+}
+
+footer p {
+    margin: 18px 0;
+}
+
+/* card footer */
+.footnote {
+    font-size: 13px;
+}
+
+/* widget */
+ul.list-widget {
+    margin-bottom: 0;
+    margin-left: -1rem;
+}
+
+p.text-widget {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+p.align-right {
+    text-align: right;
+}
+
+.tag-freq-10 {
+    font-size: 2.0em;
+}
+.tag-freq-9 {
+    font-size: 1.9em;
+}
+.tag-freq-8 {
+    font-size: 1.8em;
+}
+.tag-freq-7 {
+    font-size: 1.7em;
+}
+.tag-freq-6 {
+    font-size: 1.6em;
+}
+.tag-freq-5 {
+    font-size: 1.5em;
+}
+.tag-freq-4 {
+    font-size: 1.4em;
+}
+.tag-freq-3 {
+    font-size: 1.3em;
+}
+.tag-freq-2 {
+    font-size: 1.2em;
+}
+.tag-freq-1 {
+    font-size: 1.1em;
+}
+.tag-freq-0 {
+    font-size: 1.0em;
+}
+
+/* comment */
+ul.comment-root {
+    visibility: hidden;
+    list-style-type: none;
+}
+
+ul.comment-children {
+    list-style-type: none;
+    padding-top: 0px;
+}
+
+li.comment-list {
+    padding: 0.25rem 0.25rem;
+}
+
+p.comment-header {
+    margin-bottom: 0.25rem;
+    font-size: 13px;
+}
+
+p.comment-text {
+    margin-bottom: 0.25rem;
+}
+
+img.user-avartar {
+    min-height: 40px;
+    min-width: 40px;
+    padding: 0px;
+    margin-top: 0.25rem;
+}
+
+.no-horizonal-padding {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+/* form */
+span.field-required{
+    font-weight: bold;
+}
+
+.comment-form-reply {
+    display: none
+}

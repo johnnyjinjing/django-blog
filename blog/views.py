@@ -1,6 +1,12 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+from .models import Post
+from django.views.generic import ListView
 
-from django.shortcuts import render
+class PostIndexListView(ListView):
+    template_name = 'blog/index.html'
+    context_object_name = 'post_list'
 
-# Create your views here.
+    model = Post
+
+    def get_queryset(self):
+        return super(PostIndexListView, self).get_queryset().filter(
+            published=True)
