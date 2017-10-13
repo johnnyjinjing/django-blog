@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+from django.urls import reverse
 
 class Category(models.Model):
     """ Catagory of post
@@ -63,6 +64,14 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(Post, self).save(*args, **kwargs)
+
+    # URL of Post
+    def get_absolute_url(self):
+        return reverse('blog:detail',
+            kwargs={
+                'slug': str(self.slug)
+            }
+        )
 
     def __unicode__(self):
         return self.title
