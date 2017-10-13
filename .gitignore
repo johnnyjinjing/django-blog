@@ -5,6 +5,9 @@ django-blog/setting_secret.py
 db.sqlite3
 *my.cnf
 
+# Misc
+*.DS_Store
+
 ### Python
 
 # Byte-compiled / optimized / DLL files
