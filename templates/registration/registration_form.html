@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="card mb-4">
+    <h3 class="card-header">Registration</h3>
+    <div class="card-body">
+        <form method="post" novalidate action="." class="mb-4">
+            {% csrf_token %}
+            {% include 'base_form_account.html' with form=form %}
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        <a href="{% url 'auth_login' %}" class="btn btn-primary" role="button" aria-pressed="true">{% trans "Login" %}</a>
+        <a href="{% url 'auth_password_reset' %}" class="btn btn-primary" role="button" aria-pressed="true">{% trans "Forgot password" %}</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="card mb-4">
+    <h3 class="card-header">Registration</h3>
+    <div class="card-body">
+        <p>{% trans "Registration is currently closed. Please check back later." %}</p>
+        <p>Click <a class="color-theme-font" href="{% url 'blog:index' %}">here</a> to visit the home page.</p>
+    </div>
+</div>
+{% endblock %}

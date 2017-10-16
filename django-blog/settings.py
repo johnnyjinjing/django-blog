@@ -33,13 +33,17 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.sites',
     'django.contrib.admin',
+    'registration',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
+    'account',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +131,20 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR,'static'),
 )
+
+SITE_ID = 1
+
+# i18n
+USE_I18N = False
+
+# registration settings
+REGISTRATION_OPEN = True
+ACCOUNT_ACTIVATION_DAYS = 7
+LOGIN_URL = '/account/login/'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/'
+REGISTRATION_EMAIL_HTML = False
+
+# Media
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
