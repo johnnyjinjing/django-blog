@@ -28,8 +28,9 @@ def upload_avatar(request):
         if form.is_valid():
             user_profile = UserProfile.objects.get(user__pk=request.user.id)
 
-            # user_profile.avatar = form.cleaned_data['image']
-            user_profile.avatar = _create_thumbnail(form.cleaned_data['image'])
+            user_profile.avatar = form.cleaned_data['image']
+
+            # user_profile.avatar = create_avartar(form.cleaned_data['image'])
             user_profile.save()
             # return HttpResponseRedirect('/')
             return HttpResponse('image upload success')

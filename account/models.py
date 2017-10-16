@@ -1,8 +1,12 @@
 from django.db import models
 from django.dispatch import receiver
 from django.contrib.auth.models import User
+from django.conf import settings
 
 from registration.signals import user_activated
+
+from .utils import OverwriteStorage, UploadToPathAndRename
+from .utils import create_avatar
 
 class UserProfile(models.Model):
     """ User Profile model, one-to-one relation with User
@@ -14,10 +18,20 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
 
     # Additional attributes
-    avatar = models.ImageField(upload_to='profile_avatars', null=True,
-        blank=True)
+    avatar = models.ImageField(
+        upload_to=UploadToPathAndRename('profile_avatars'),
+        storage=OverwriteStorage(), null=True,blank=True)
+
+    def save(self, *args, **kwargs):
+        super(UserProfile, self).save(*args, **kwargs)
+        if self.avatar:
+            create_avatar(self.avatar.path)
 
 @receiver(user_activated)
 def create_user_profile(sender, user, request, **kwargs):
+    """ Create UserProfile model, called when the user activate the account
+    """
     profile = UserProfile(user=user)
     profile.save()
+
+
