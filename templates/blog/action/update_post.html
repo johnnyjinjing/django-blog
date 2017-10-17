@@ -3,13 +3,14 @@
 
 {% block content %}
 <div class="card mb-4">
-    <h3 class="card-header">Write a post</h3>
+    <h3 class="card-header">Edit post</h3>
     <div class="card-body">
         <form method="post" novalidate action='.'>
             {% csrf_token %}
             {% include 'base_form_account.html' with form=form %}
             <button type="submit" class="btn btn-primary" name="publish" value={% trans 'Publish' %}>{% trans 'Publish' %}</button>
             <button type="submit" class="btn btn-secondary" name ="draft" value={% trans 'Save' %}>{% trans 'Save as draft' %}</button>
+            <button type="submit" class="btn btn-danger" name ="delete" value={% trans 'Delete' %} style="float: right;">{% trans 'Delete' %}</button>
         </form>
     </div>
 </div>

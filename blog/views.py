@@ -1,7 +1,8 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from django.views.generic.dates import MonthArchiveView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse
 
 import markdown
 
@@ -242,5 +243,36 @@ class PostCreate(CreateView):
         form.instance.author = self.request.user
         if 'publish' in self.request.POST:
             form.instance.published = True
+        else:
+            form.instance.published = False
         form.save()
         return super(PostCreate, self).form_valid(form)
+
+
+class PostUpdate(UpdateView):
+    """ View to update post
+    """
+    template_name = 'blog/action/update_post.html'
+    success_url = '/'
+    model = Post
+    fields = ['title', 'body', 'category', 'tags']
+
+    def form_valid(self, form):
+        if 'publish' in self.request.POST:
+            form.instance.published = True
+        elif 'draft' in self.request.POST:
+            form.instance.published = False
+        else:
+            return redirect(reverse('blog:delete_post',
+                args=[self.kwargs.get('slug'),]))
+
+        form.save()
+        return super(PostUpdate, self).form_valid(form)
+
+class PostDelete(DeleteView):
+    """ View to delete post
+    """
+    template_name = 'blog/action/delete_post.html'
+    success_url = '/'
+    model = Post
+    fields = ['title', 'body', 'category', 'tags']

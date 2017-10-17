@@ -21,4 +21,8 @@ urlpatterns = [
         login_required(views.CategoryCreate.as_view()), name='create_category'),
     url(r'^action/create_tag/$', login_required(views.TagCreate.as_view()),
         name='create_tag'),
+    url(r'^post/(?P<slug>[\w\-]+)/edit/$', views.PostUpdate.as_view(),
+        name='update_post'),
+    url(r'^post/(?P<slug>[\w\-]+)/delete/$', views.PostDelete.as_view(),
+        name='delete_post'),
 ]
