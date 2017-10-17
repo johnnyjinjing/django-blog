@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.views.generic.dates import MonthArchiveView
+from django.views.generic.edit import CreateView
 
 import markdown
 
@@ -187,6 +188,7 @@ class PostCategoryListView(_PostListView):
         })
         return context
 
+
 class PostTagListView(_PostListView):
     """ View of tag page
     """
@@ -208,3 +210,37 @@ class PostTagListView(_PostListView):
             'title': title_string
         })
         return context
+
+
+class CategoryCreate(CreateView):
+    """ View to create category
+    """
+    template_name = 'blog/action/create_category.html'
+    success_url = '/'
+    model = Category
+    fields = ['name']
+
+
+class TagCreate(CreateView):
+    """ View to create tag
+    """
+    template_name = 'blog/action/create_tag.html'
+    success_url = '/'
+    model = Tag
+    fields = ['name']
+
+
+class PostCreate(CreateView):
+    """ View to create post
+    """
+    template_name = 'blog/action/create_post.html'
+    success_url = '/'
+    model = Post
+    fields = ['title', 'body', 'category', 'tags']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        if 'publish' in self.request.POST:
+            form.instance.published = True
+        form.save()
+        return super(PostCreate, self).form_valid(form)

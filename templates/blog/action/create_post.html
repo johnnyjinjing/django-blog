@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="card mb-4">
+    <h3 class="card-header">Write a post</h3>
+    <div class="card-body">
+        <form method="post" novalidate action='.'>
+            {% csrf_token %}
+            {% include 'base_form_account.html' with form=form %}
+            <button type="submit" class="btn btn-primary" name="publish" value={% trans 'Publish' %}>{% trans 'Publish' %}</button>
+            <button type="submit" class="btn btn-default" name ="draft" value={% trans 'Save' %}>{% trans 'Save as draft' %}</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

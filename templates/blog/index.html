@@ -38,7 +38,7 @@
                         </span>
                         <div class="col text-right">
                             {% if post.tags.all %}
-                                <i class="fa fa-tags" aria-hidden="true"></i>&nbsp;{% for tag in post.tags.all %}<a href="{% url 'blog:tag' tag.slug %}">{{ tag }}</a>{% if not forloop.last %},&nbsp;{% endif %}{% endfor %}
+                                <i class="fa fa-tag" aria-hidden="true"></i>&nbsp;{% for tag in post.tags.all %}<a href="{% url 'blog:tag' tag.slug %}">{{ tag }}</a>{% if not forloop.last %},&nbsp;{% endif %}{% endfor %}
                             {% endif %}
                         </div>
                     </div>

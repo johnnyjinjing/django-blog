@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="card mb-4">
+    <h3 class="card-header">Create Categoty</h3>
+    <div class="card-body">
+        <form method="post" novalidate action='.'>
+            {% csrf_token %}
+            {% include 'base_form_account.html' with form=form %}
+            <button type="submit" class="btn btn-primary" value={% trans 'Create' %}>{% trans 'Create' %}</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

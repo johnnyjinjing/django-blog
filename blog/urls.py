@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.contrib.auth.decorators import login_required
 
 from . import views
 
@@ -13,4 +14,11 @@ urlpatterns = [
         name='category'),
     url(r'^tag/(?P<slug>[\w\-]+)/$', views.PostTagListView.as_view(),
         name='tag'),
+
+    url(r'^action/create_post/$', login_required(views.PostCreate.as_view()),
+        name='create_blog'),
+    url(r'^action/create_category/$',
+        login_required(views.CategoryCreate.as_view()), name='create_category'),
+    url(r'^action/create_tag/$', login_required(views.TagCreate.as_view()),
+        name='create_tag'),
 ]
