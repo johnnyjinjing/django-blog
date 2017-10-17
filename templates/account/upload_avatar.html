@@ -1,6 +1,15 @@
-<form action="." method="post" enctype="multipart/form-data">{% csrf_token %}
-    <p>
-        <input id="id_image" type="file" class="" name="image">
-    </p>
-    <input type="submit" value="Submit" />
-</form>
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="card mb-4">
+    <h3 class="card-header">Update avatar</h3>
+    <div class="card-body">
+        <form method="post" novalidate action='.' class="mb-4" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% include 'base_form_account.html' with form=form %}
+            <button type="submit" class="btn btn-primary" value={% trans 'Upload' %}>{% trans 'Upload' %}</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

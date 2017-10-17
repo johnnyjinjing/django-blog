@@ -3,13 +3,12 @@
 
 {% block content %}
     <div class="card mb-4">
+        <h3 class="card-header">Profile</h3>
         <div class="card-body">
-            <h2 class="card-title">Your Profile</h2>
-            <hr class="my-4">
             <p class="card-text"><b>Username:</b> {{ user_profile.user.username}}</p>
             <p class="card-text"><b>Email:</b> {{ user_profile.user.email}}</p>
             <p class="card-text"><b>Password:</b> ********  <a href="{% url 'auth_password_change' %}" class="btn btn-primary" role="button" aria-pressed="true">{% trans "Change" %}</a></p>
-            <p class="card-text"><b>Avatar:</b> <img src="{{ user_profile.avatar.url }}"> <a href="{% url 'upload_avatar' %}" class="btn btn-primary" role="button" aria-pressed="true">{% trans "Update" %}</a></p>
+            <p class="card-text"><b>Avatar:</b> {% if user_profile.avatar %}<img style="height:150px; width:auto" src="{{ user_profile.avatar.url }}">{% endif %} <a href="{% url 'upload_avatar' %}" class="btn btn-primary" role="button" aria-pressed="true">{% trans "Update" %}</a></p>
         </div>
     </div>
 

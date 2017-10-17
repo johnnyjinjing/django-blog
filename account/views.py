@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import DetailView
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 from .models import UserProfile
 from .forms import UploadAvatarForm
@@ -15,9 +16,12 @@ class UserProfileDetailView(DetailView):
     model = UserProfile
 
     def get_queryset(self):
-        if self.request.user.id == int(self.kwargs.get('pk')):
+        self.profile_user_id = get_object_or_404(UserProfile,
+            slug=self.kwargs.get('slug')).user.id
+
+        if self.request.user.id == self.profile_user_id:
             return super(UserProfileDetailView, self).get_queryset().filter(
-                user__pk=self.kwargs.get('pk'))
+                slug=self.kwargs.get('slug'))
         else:
             raise Http404("Permission denied!")
 

@@ -11,11 +11,12 @@ from . import views
 
 urlpatterns = [
     # user profile
-    url(r'^profile/(?P<pk>[0-9]+)/$',
-        login_required(views.UserProfileDetailView.as_view()), name='user_profile'),
+    url(r'^profile/(?P<slug>[\w\-]+)/$',
+        login_required(views.UserProfileDetailView.as_view()),
+        name='user_profile'),
 
     # upload avatar
-    url(r'^profile/upload_avatar/$', views.upload_avatar, name='upload_avatar'),
+    url(r'^profile/action/upload_avatar/$', views.upload_avatar, name='upload_avatar'),
 
     # use unique email form
     url(r'^register/$',
