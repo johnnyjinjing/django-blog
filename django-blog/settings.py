@@ -148,3 +148,6 @@ REGISTRATION_EMAIL_HTML = False
 # Media
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# User permission
+DEFAULT_GROUP_NAME = 'reader'

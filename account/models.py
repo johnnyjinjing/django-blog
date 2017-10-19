@@ -1,6 +1,6 @@
 from django.db import models
 from django.dispatch import receiver
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.conf import settings
 from django.template.defaultfilters import slugify
 
@@ -33,10 +33,15 @@ class UserProfile(models.Model):
 
 
 @receiver(user_activated)
-def create_user_profile(sender, user, request, **kwargs):
-    """ Create UserProfile model, called when the user activate the account
+def post_user_activation(sender, user, request, **kwargs):
+    """ Create UserProfile model and assign user to the default group
+    called when the user activate the account
     """
+    group = Group.objects.get(name=settings.DEFAULT_GROUP_NAME)
+    group.user_set.add(user)
     profile = UserProfile(user=user)
     profile.save()
+
+
 
 

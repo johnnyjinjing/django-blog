@@ -1,6 +1,7 @@
 import math
 
 from django import template
+from django.contrib.auth.models import Group
 from django.db.models import Count, Max, Avg, FloatField
 from django.db.models.functions import TruncMonth, Lower, Cast
 
@@ -14,6 +15,7 @@ def get_recent_posts(num=10):
     """
     return Post.objects.filter(published=True)[:num]
 
+
 @register.simple_tag
 def get_archives():
     """ Group posts by created month
@@ -22,6 +24,7 @@ def get_archives():
         date=TruncMonth('created_time')).values('date').annotate(
         num_posts=Count('id')).order_by('date')
     return archives
+
 
 @register.simple_tag
 def get_categories():
@@ -32,6 +35,7 @@ def get_categories():
     categories = Category.objects.filter(post__published=True).annotate(
         num_posts=Count('post')).order_by(Lower('name'))
     return categories
+
 
 @register.simple_tag
 def get_tags():

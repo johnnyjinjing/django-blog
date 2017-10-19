@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load blog_extras %}
 
 {% block content %}
     <div class="card mb-4">
@@ -10,8 +11,9 @@
             <p class="card-text"><b>Password:</b> ********  <a href="{% url 'auth_password_change' %}" class="btn btn-primary" role="button" aria-pressed="true">{% trans "Change" %}</a></p>
             <p class="card-text"><b>Avatar:</b> {% if user_profile.avatar %}<img style="height:150px; width:auto" src="{{ user_profile.avatar.url }}">{% endif %} <a href="{% url 'upload_avatar' %}" class="btn btn-primary" role="button">{% trans "Update" %}</a></p>
 
-
         </div>
     </div>
-    <a href="#" class="btn btn-primary" role="button">{% trans "View my posts" %}</a>
+    {% if request.user|has_group:"writer" %}
+        <a href="{% url 'blog:post_user_list' request.user.user_profile.slug %}" class="btn btn-primary" role="button">{% trans "View my posts" %}</a>
+    {% endif %}
 {% endblock content %}
