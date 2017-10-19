@@ -3,10 +3,13 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.dates import MonthArchiveView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 import markdown
 
 from .models import Post, Category, Tag
+from account.decorators import group_required
 
 class _PostListView(ListView):
     """ Paginated ListView
@@ -213,6 +216,9 @@ class PostTagListView(_PostListView):
         return context
 
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(group_required(True, 'writer'),
+    name='dispatch')
 class CategoryCreate(CreateView):
     """ View to create category
     """
@@ -222,6 +228,9 @@ class CategoryCreate(CreateView):
     fields = ['name']
 
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(group_required(True, 'writer'),
+    name='dispatch')
 class TagCreate(CreateView):
     """ View to create tag
     """
@@ -231,6 +240,9 @@ class TagCreate(CreateView):
     fields = ['name']
 
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(group_required(True, 'writer'),
+    name='dispatch')
 class PostCreate(CreateView):
     """ View to create post
     """
@@ -249,6 +261,9 @@ class PostCreate(CreateView):
         return super(PostCreate, self).form_valid(form)
 
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(group_required(True, 'writer'),
+    name='dispatch')
 class PostUpdate(UpdateView):
     """ View to update post
     """
@@ -270,6 +285,9 @@ class PostUpdate(UpdateView):
         return super(PostUpdate, self).form_valid(form)
 
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(group_required(True, 'writer'),
+    name='dispatch')
 class PostDelete(DeleteView):
     """ View to delete post
     """
@@ -279,6 +297,9 @@ class PostDelete(DeleteView):
     fields = ['title', 'body', 'category', 'tags']
 
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(group_required(True, 'writer'),
+    name='dispatch')
 class PostUserListView(_PostListView):
     """ View to show posts by particular user for edit
     """

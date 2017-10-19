@@ -7,7 +7,7 @@
     <div class="card-body">
         <form method="post" novalidate action='.'>
             {% csrf_token %}
-            {% include 'base_form_account.html' with form=form %}
+            {% include 'base_form.html' with form=form %}
             <p>Are you sure you want to delete the post with title "{{ object }}"?</p>
             <button type="submit" class="btn btn-danger" name ="delete" value={% trans 'Delete' %} style="float: right;">{% trans 'Delete' %}</button>
         </form>

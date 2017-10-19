@@ -2,7 +2,6 @@ from django.conf.urls import url
 
 from django.contrib.auth import views as auth_views
 from django.core.urlresolvers import reverse_lazy
-from django.contrib.auth.decorators import login_required
 
 from registration.forms import RegistrationFormUniqueEmail
 from registration.backends.default.views import RegistrationView
@@ -11,8 +10,7 @@ from . import views
 
 urlpatterns = [
     # user profile
-    url(r'^profile/(?P<slug>[\w\-]+)/$',
-        login_required(views.UserProfileDetailView.as_view()),
+    url(r'^profile/(?P<slug>[\w\-]+)/$', views.UserProfileDetailView.as_view(),
         name='user_profile'),
 
     # upload avatar

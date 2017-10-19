@@ -140,7 +140,7 @@ USE_I18N = False
 # registration settings
 REGISTRATION_OPEN = True
 ACCOUNT_ACTIVATION_DAYS = 7
-LOGIN_URL = '/account/login/'
+LOGIN_URL = '/accounts/login/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 REGISTRATION_EMAIL_HTML = False

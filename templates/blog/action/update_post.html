@@ -7,7 +7,10 @@
     <div class="card-body">
         <form method="post" novalidate action='.'>
             {% csrf_token %}
-            {% include 'base_form_account.html' with form=form %}
+            {% include 'base_form.html' with form=form %}
+            <a href="{% url 'blog:create_category' %}?next={{ request.path }}" class="btn btn-primary" role="button">{% trans "Add category" %}</a>
+            <a href="{% url 'blog:create_tag' %}" class="btn btn-primary" role="button">{% trans "Add tag" %}</a>
+            <br><br>
             <button type="submit" class="btn btn-primary" name="publish" value={% trans 'Publish' %}>{% trans 'Publish' %}</button>
             <button type="submit" class="btn btn-secondary" name ="draft" value={% trans 'Save' %}>{% trans 'Save as draft' %}</button>
             <button type="submit" class="btn btn-danger" name ="delete" value={% trans 'Delete' %} style="float: right;">{% trans 'Delete' %}</button>

@@ -53,3 +53,5 @@ def get_tags():
         FloatField())).filter(freq_posts__gt=0.0).order_by(Lower('name'))
 
     return tags
+
+
