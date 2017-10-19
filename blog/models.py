@@ -10,7 +10,7 @@ class Category(models.Model):
     """
 
     name = models.CharField(max_length=100, unique=True)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(max_length=100, unique=True)
 
     class Meta:
         verbose_name_plural = "categories"
@@ -30,7 +30,7 @@ class Tag(models.Model):
     """
 
     name = models.CharField(max_length=100, unique=True)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(max_length=100, unique=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -61,7 +61,7 @@ class Post(models.Model):
     published = models.BooleanField(default=False)
     category = models.ForeignKey(Category)
     tags = models.ManyToManyField(Tag, blank=True)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(max_length=100, unique=True)
 
     class Meta:
         ordering = ['-created_time', 'title']

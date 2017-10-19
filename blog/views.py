@@ -269,6 +269,7 @@ class PostUpdate(UpdateView):
         form.save()
         return super(PostUpdate, self).form_valid(form)
 
+
 class PostDelete(DeleteView):
     """ View to delete post
     """
@@ -276,3 +277,16 @@ class PostDelete(DeleteView):
     success_url = '/'
     model = Post
     fields = ['title', 'body', 'category', 'tags']
+
+
+class PostUserListView(_PostListView):
+    """ View to show posts by particular user for edit
+    """
+
+    template_name = 'blog/post_list.html'
+    context_object_name = 'post_list'
+    model = Post
+
+    def get_queryset(self):
+        return super(PostUserListView, self).get_queryset().filter(
+            author=self.request.user)

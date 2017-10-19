@@ -25,16 +25,14 @@ class UserProfileDetailView(DetailView):
         else:
             raise Http404("Permission denied!")
 
+
 @login_required
 def upload_avatar(request):
     if request.method == 'POST':
         form = UploadAvatarForm(request.POST, request.FILES)
         if form.is_valid():
             user_profile = UserProfile.objects.get(user__pk=request.user.id)
-
             user_profile.avatar = form.cleaned_data['image']
-
-            # user_profile.avatar = create_avartar(form.cleaned_data['image'])
             user_profile.save()
             # return HttpResponseRedirect('/')
             return HttpResponse('image upload success')

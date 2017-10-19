@@ -23,7 +23,7 @@ class UserProfile(models.Model):
         upload_to=UploadToPathAndRename('profile_avatars'),
         storage=OverwriteStorage(), null=True,blank=True)
 
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(max_length=100, unique=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.user.username)

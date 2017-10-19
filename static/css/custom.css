@@ -94,37 +94,37 @@ p.align-right {
 }
 
 .tag-freq-10 {
-    font-size: 2.0em;
-}
-.tag-freq-9 {
-    font-size: 1.9em;
-}
-.tag-freq-8 {
-    font-size: 1.8em;
-}
-.tag-freq-7 {
-    font-size: 1.7em;
-}
-.tag-freq-6 {
-    font-size: 1.6em;
-}
-.tag-freq-5 {
-    font-size: 1.5em;
-}
-.tag-freq-4 {
-    font-size: 1.4em;
-}
-.tag-freq-3 {
     font-size: 1.3em;
 }
-.tag-freq-2 {
+.tag-freq-9 {
+    font-size: 1.25em;
+}
+.tag-freq-8 {
     font-size: 1.2em;
 }
-.tag-freq-1 {
+.tag-freq-7 {
+    font-size: 1.15em;
+}
+.tag-freq-6 {
     font-size: 1.1em;
 }
+.tag-freq-5 {
+    font-size: 1.05em;
+}
+.tag-freq-4 {
+    font-size: 1em;
+}
+.tag-freq-3 {
+    font-size: 0.95em;
+}
+.tag-freq-2 {
+    font-size: 0.9em;
+}
+.tag-freq-1 {
+    font-size: 0.85em;
+}
 .tag-freq-0 {
-    font-size: 1.0em;
+    font-size: 0.8em;
 }
 
 /* comment */
@@ -169,5 +169,16 @@ span.field-required{
 }
 
 .comment-form-reply {
-    display: none
+    display: none;
+}
+
+/* table */
+table tbody tr td.cell-center, table thead tr th.cell-center {
+    text-align: center;
+    vertical-align: middle;
+}
+
+table thead th.no-border {
+  border: none;
+  border-bottom: none;
 }

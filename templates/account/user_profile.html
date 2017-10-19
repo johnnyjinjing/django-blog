@@ -8,8 +8,10 @@
             <p class="card-text"><b>Username:</b> {{ user_profile.user.username}}</p>
             <p class="card-text"><b>Email:</b> {{ user_profile.user.email}}</p>
             <p class="card-text"><b>Password:</b> ********  <a href="{% url 'auth_password_change' %}" class="btn btn-primary" role="button" aria-pressed="true">{% trans "Change" %}</a></p>
-            <p class="card-text"><b>Avatar:</b> {% if user_profile.avatar %}<img style="height:150px; width:auto" src="{{ user_profile.avatar.url }}">{% endif %} <a href="{% url 'upload_avatar' %}" class="btn btn-primary" role="button" aria-pressed="true">{% trans "Update" %}</a></p>
+            <p class="card-text"><b>Avatar:</b> {% if user_profile.avatar %}<img style="height:150px; width:auto" src="{{ user_profile.avatar.url }}">{% endif %} <a href="{% url 'upload_avatar' %}" class="btn btn-primary" role="button">{% trans "Update" %}</a></p>
+
+
         </div>
     </div>
-
+    <a href="#" class="btn btn-primary" role="button">{% trans "View my posts" %}</a>
 {% endblock content %}

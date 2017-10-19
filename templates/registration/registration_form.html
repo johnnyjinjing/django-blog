@@ -11,8 +11,8 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
 
-        <a href="{% url 'auth_login' %}" class="btn btn-primary" role="button" aria-pressed="true">{% trans "Login" %}</a>
-        <a href="{% url 'auth_password_reset' %}" class="btn btn-primary" role="button" aria-pressed="true">{% trans "Forgot password" %}</a>
+        <a href="{% url 'auth_login' %}" class="btn btn-primary" role="button">{% trans "Login" %}</a>
+        <a href="{% url 'auth_password_reset' %}" class="btn btn-primary" role="button">{% trans "Forgot password" %}</a>
     </div>
 </div>
 {% endblock %}

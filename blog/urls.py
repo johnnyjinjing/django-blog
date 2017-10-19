@@ -15,14 +15,20 @@ urlpatterns = [
     url(r'^tag/(?P<slug>[\w\-]+)/$', views.PostTagListView.as_view(),
         name='tag'),
 
-    url(r'^action/create_post/$', login_required(views.PostCreate.as_view()),
-        name='create_blog'),
-    url(r'^action/create_category/$',
-        login_required(views.CategoryCreate.as_view()), name='create_category'),
-    url(r'^action/create_tag/$', login_required(views.TagCreate.as_view()),
-        name='create_tag'),
+    url(r'^post/author/(?P<slug>[\w\-]+)/$',
+        login_required(views.PostUserListView.as_view()),
+        name='post_user_list'),
     url(r'^post/(?P<slug>[\w\-]+)/edit/$', views.PostUpdate.as_view(),
         name='update_post'),
     url(r'^post/(?P<slug>[\w\-]+)/delete/$', views.PostDelete.as_view(),
         name='delete_post'),
+
+    url(r'^action/create_post/$', login_required(views.PostCreate.as_view()),
+        name='create_blog'),
+    url(r'^action/create_category/$',
+        login_required(views.CategoryCreate.as_view()),
+        name='create_category'),
+    url(r'^action/create_tag/$', login_required(views.TagCreate.as_view()),
+        name='create_tag'),
+
 ]
