@@ -1,10 +1,12 @@
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, HttpResponse
 from django.views.generic import ListView, DetailView
 from django.views.generic.dates import MonthArchiveView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.utils.html import escape
 
 import markdown
 
@@ -101,6 +103,31 @@ class _PostListView(ListView):
         }
 
         return data
+
+
+class AjaxableResponseMixin(object):
+    """ Mixin to add AJAX support to a form.
+    Must be used with an object-based FormView (e.g. CreateView)
+    """
+    def form_invalid(self, form):
+        response = super(AjaxableResponseMixin, self).form_invalid(form)
+        if self.request.is_ajax():
+            return JsonResponse(form.errors, status=400)
+        else:
+            return response
+
+    def form_valid(self, form):
+        # We make sure to call the parent's form_valid() method because
+        # it might do some processing (in the case of CreateView, it will
+        # call form.save() for example).
+        response = super(AjaxableResponseMixin, self).form_valid(form)
+        if self.request.is_ajax():
+            data = {
+                'pk': self.object.pk,
+            }
+            return JsonResponse(data)
+        else:
+            return response
 
 
 class PostIndexListView(_PostListView):
@@ -223,9 +250,25 @@ class CategoryCreate(CreateView):
     """ View to create category
     """
     template_name = 'blog/action/create_category.html'
-    success_url = '/'
     model = Category
     fields = ['name']
+
+    def form_valid(self, form):
+            obj = form.save()
+            pk_value = obj.pk
+
+            if "_popup" in self.request.GET:
+                return HttpResponse('''
+                    <script>opener.closeAddPopup(window, "%s", "%s");</script>
+                    ''' % (escape(pk_value), escape(obj)))
+
+            return super(CategoryCreate, self).form_valid(form)
+
+    def get_success_url(self):
+        if 'next' in self.request.GET:
+            return self.request.GET.get('next')
+        else:
+            return reverse('blog:index')
 
 
 @method_decorator(login_required, name='dispatch')

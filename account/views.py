@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.utils.decorators import method_decorator
 from django.urls import reverse
+from django.core.exceptions import PermissionDenied
 
 from .models import UserProfile
 from .forms import UploadAvatarForm
@@ -27,7 +28,7 @@ class UserProfileDetailView(DetailView):
             return super(UserProfileDetailView, self).get_queryset().filter(
                 slug=self.kwargs.get('slug'))
         else:
-            raise Http404("Permission denied!")
+            raise PermissionDenied
 
 
 @login_required
