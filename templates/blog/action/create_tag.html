@@ -5,7 +5,7 @@
 <div class="card mb-4">
     <h3 class="card-header">Create Tag</h3>
     <div class="card-body">
-        <form method="post" novalidate action='.'>
+        <form action="./{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}" method="post" novalidate>
             {% csrf_token %}
             {% include 'base_form.html' with form=form %}
             <button type="submit" class="btn btn-primary" value={% trans 'Create' %}>{% trans 'Create' %}</button>

@@ -1,136 +1,20 @@
-from django.shortcuts import get_object_or_404, redirect, HttpResponse
-from django.views.generic import ListView, DetailView
+from django.shortcuts import get_object_or_404, redirect
+from django.views.generic import DetailView
 from django.views.generic.dates import MonthArchiveView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.utils.html import escape
 
 import markdown
 
 from .models import Post, Category, Tag
 from account.decorators import group_required
-
-class _PostListView(ListView):
-    """ Paginated ListView
-    """
-    N_PAGE_ONESIDE = 2
-    paginate_by = 10
-
-    def get_context_data(self, **kwargs):
-        context = super(_PostListView, self).get_context_data(**kwargs)
-
-        # get context provided in ListView
-        paginator = context.get('paginator')
-        page = context.get('page_obj')
-        is_paginated = context.get('is_paginated')
-
-        # get pagination data
-        pagination_data = self.pagination_data(paginator, page, is_paginated)
-
-        context.update(pagination_data)
-        return context
-
-    def pagination_data(self, paginator, page, is_paginated):
-        """
-        get custormized pagination data
-        For example: page = [1, 2, 3, ..., 9], current_page = 7, NPAGE = 2
-            then left = [5, 6], right = [8, 9], left_has_more = True,
-            right_has_more = False, first = True, last = False
-        """
-        if not is_paginated:
-            return {}
-
-        left = []
-        right = []
-        left_has_more = False # if ellipses is needed on the left
-        right_has_more = False # if ellipses is needed on the right
-        first = False
-        last = False
-
-        page_number = page.number
-        total_pages = paginator.num_pages
-        page_range = list(paginator.page_range)
-
-        if page_number == 1: # first page, left = [], left_has_more = False, first = False
-            if 1 + self.N_PAGE_ONESIDE < len(page_range):
-                right = page_range[1:1 + self.N_PAGE_ONESIDE]
-            else:
-                right = page_range[1:]
-            if right[-1] < total_pages - 1:
-                right_has_more = True
-            if right[-1] < total_pages:
-                last = True
-        elif page_number == total_pages: # last page, right = [], right_has_more = False, last = False
-            if page_number - self.N_PAGE_ONESIDE - 1 > 0:
-                left = page_range[page_number - self.N_PAGE_ONESIDE - 1:page_number - 1]
-            else:
-                left = page_range[:page_number - 1]
-            if left[0] > 2:
-                left_has_more = True
-            if left[0] > 1:
-                first = True
-        else:
-            if page_number - self.N_PAGE_ONESIDE - 1 > 0:
-                left = page_range[page_number - self.N_PAGE_ONESIDE - 1:page_number - 1]
-            else:
-                left = page_range[:page_number - 1]
-
-            if page_number + self.N_PAGE_ONESIDE < len(page_range):
-                right = page_range[page_number:page_number + self.N_PAGE_ONESIDE]
-            else:
-                right = page_range[page_number:]
-
-            if right[-1] < total_pages - 1:
-                right_has_more = True
-            if right[-1] < total_pages:
-                last = True
-
-            if left[0] > 2:
-                left_has_more = True
-            if left[0] > 1:
-                first = True
-
-        data = {
-            'left': left,
-            'right': right,
-            'left_has_more': left_has_more,
-            'right_has_more': right_has_more,
-            'first': first,
-            'last': last,
-        }
-
-        return data
+from .base_views import PaginatedListView, MiscCreateMixin
 
 
-class AjaxableResponseMixin(object):
-    """ Mixin to add AJAX support to a form.
-    Must be used with an object-based FormView (e.g. CreateView)
-    """
-    def form_invalid(self, form):
-        response = super(AjaxableResponseMixin, self).form_invalid(form)
-        if self.request.is_ajax():
-            return JsonResponse(form.errors, status=400)
-        else:
-            return response
-
-    def form_valid(self, form):
-        # We make sure to call the parent's form_valid() method because
-        # it might do some processing (in the case of CreateView, it will
-        # call form.save() for example).
-        response = super(AjaxableResponseMixin, self).form_valid(form)
-        if self.request.is_ajax():
-            data = {
-                'pk': self.object.pk,
-            }
-            return JsonResponse(data)
-        else:
-            return response
-
-
-class PostIndexListView(_PostListView):
+class PostIndexListView(PaginatedListView):
     """ View of Blog index page
     """
 
@@ -168,7 +52,7 @@ class PostDetailView(DetailView):
             published=True)
 
 
-class PostMonthArchiveView(MonthArchiveView, _PostListView):
+class PostMonthArchiveView(MonthArchiveView, PaginatedListView):
     """ View of Monthly Archive page
     """
 
@@ -197,7 +81,7 @@ class PostMonthArchiveView(MonthArchiveView, _PostListView):
         return context
 
 
-class PostCategoryListView(_PostListView):
+class PostCategoryListView(PaginatedListView):
     """ View of categoty page
     """
 
@@ -212,7 +96,7 @@ class PostCategoryListView(_PostListView):
             category=self.cat, published=True)
 
     def get_context_data(self, **kwargs):
-        context = super(ListView, self).get_context_data(**kwargs)
+        context = super(PaginatedListView, self).get_context_data(**kwargs)
         title_string = 'Posts in Category: ' + self.cat.name
         context.update({
             'title': title_string
@@ -220,7 +104,7 @@ class PostCategoryListView(_PostListView):
         return context
 
 
-class PostTagListView(_PostListView):
+class PostTagListView(PaginatedListView):
     """ View of tag page
     """
 
@@ -235,7 +119,7 @@ class PostTagListView(_PostListView):
             tags=self.tag, published=True)
 
     def get_context_data(self, **kwargs):
-        context = super(ListView, self).get_context_data(**kwargs)
+        context = super(PaginatedListView, self).get_context_data(**kwargs)
         title_string = 'Posts with Tag: ' + self.tag.name
         context.update({
             'title': title_string
@@ -243,26 +127,26 @@ class PostTagListView(_PostListView):
         return context
 
 
-@method_decorator(login_required, name='dispatch')
-@method_decorator(group_required(True, 'writer'),
-    name='dispatch')
-class CategoryCreate(CreateView):
+class CategoryCreate(MiscCreateMixin):
     """ View to create category
     """
     template_name = 'blog/action/create_category.html'
     model = Category
     fields = ['name']
 
-    def form_valid(self, form):
-            obj = form.save()
-            pk_value = obj.pk
+    def get_success_url(self):
+        if 'next' in self.request.GET:
+            return self.request.GET.get('next')
+        else:
+            return reverse('blog:index')
 
-            if "_popup" in self.request.GET:
-                return HttpResponse('''
-                    <script>opener.closeAddPopup(window, "%s", "%s");</script>
-                    ''' % (escape(pk_value), escape(obj)))
 
-            return super(CategoryCreate, self).form_valid(form)
+class TagCreate(MiscCreateMixin):
+    """ View to create tag
+    """
+    template_name = 'blog/action/create_tag.html'
+    model = Tag
+    fields = ['name']
 
     def get_success_url(self):
         if 'next' in self.request.GET:
@@ -274,23 +158,10 @@ class CategoryCreate(CreateView):
 @method_decorator(login_required, name='dispatch')
 @method_decorator(group_required(True, 'writer'),
     name='dispatch')
-class TagCreate(CreateView):
-    """ View to create tag
-    """
-    template_name = 'blog/action/create_tag.html'
-    success_url = '/'
-    model = Tag
-    fields = ['name']
-
-
-@method_decorator(login_required, name='dispatch')
-@method_decorator(group_required(True, 'writer'),
-    name='dispatch')
 class PostCreate(CreateView):
     """ View to create post
     """
     template_name = 'blog/action/create_post.html'
-    success_url = '/'
     model = Post
     fields = ['title', 'body', 'category', 'tags']
 
@@ -298,10 +169,24 @@ class PostCreate(CreateView):
         form.instance.author = self.request.user
         if 'publish' in self.request.POST:
             form.instance.published = True
-        else:
+        elif 'draft' in self.request.POST:
             form.instance.published = False
+        elif "discard" in self.request.POST:
+            return redirect(reverse('blog:post_user_list',
+                args=[self.request.user.user_profile.slug,]))
+
         form.save()
         return super(PostCreate, self).form_valid(form)
+
+    def form_invalid(self, form):
+        if "discard" in self.request.POST:
+            return redirect(reverse('blog:post_user_list',
+                args=[self.request.user.user_profile.slug,]))
+        return super(PostCreate, self).form_invalid(form)
+
+    def get_success_url(self):
+        return reverse('blog:post_user_list',
+        args=[self.request.user.user_profile.slug,])
 
 
 @method_decorator(login_required, name='dispatch')
@@ -311,7 +196,6 @@ class PostUpdate(UpdateView):
     """ View to update post
     """
     template_name = 'blog/action/update_post.html'
-    success_url = '/'
     model = Post
     fields = ['title', 'body', 'category', 'tags']
 
@@ -320,12 +204,22 @@ class PostUpdate(UpdateView):
             form.instance.published = True
         elif 'draft' in self.request.POST:
             form.instance.published = False
-        else:
+        elif "delete" in self.request.POST:
             return redirect(reverse('blog:delete_post',
                 args=[self.kwargs.get('slug'),]))
 
         form.save()
         return super(PostUpdate, self).form_valid(form)
+
+    def form_invalid(self, form):
+        if "delete" in self.request.POST:
+            return redirect(reverse('blog:delete_post',
+                args=[self.kwargs.get('slug'),]))
+        return super(PostUpdate, self).form_invalid(form)
+
+    def get_success_url(self):
+        return reverse('blog:post_user_list',
+        args=[self.request.user.user_profile.slug,])
 
 
 @method_decorator(login_required, name='dispatch')
@@ -335,15 +229,18 @@ class PostDelete(DeleteView):
     """ View to delete post
     """
     template_name = 'blog/action/delete_post.html'
-    success_url = '/'
     model = Post
     fields = ['title', 'body', 'category', 'tags']
+
+    def get_success_url(self):
+        return reverse('blog:post_user_list',
+        args=[self.request.user.user_profile.slug,])
 
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(group_required(True, 'writer'),
     name='dispatch')
-class PostUserListView(_PostListView):
+class PostUserListView(PaginatedListView):
     """ View to show posts by particular user for edit
     """
 

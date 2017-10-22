@@ -91,7 +91,7 @@
                             <p class="text-widget">
                                 {% for tag in tag_list %}
                                     {% if tag.freq_posts %}
-                                        <a href="#"><span class="tag-freq-{{tag.freq_posts|add:"0"}}">{{ tag.name }}</span></a>&ensp;
+                                        <a href="{% url 'blog:tag' tag.slug %}"><span class="tag-freq-{{tag.freq_posts|add:"0"}}">{{ tag.name }}</span></a>&ensp;
                                     {% endif %}
                                 {% endfor %}
                             </p>
