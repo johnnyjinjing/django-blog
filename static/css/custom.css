@@ -24,10 +24,12 @@
 /* button */
 .btn-primary {
     background-color: var(--theme);
+    border-color: var(--theme);
 }
 
 .btn-primary:hover {
     background-color: var(--theme);
+    border-color: var(--theme);
 }
 
 /* font color */
@@ -215,5 +217,6 @@ table thead th.no-border {
 }
 .page-item.active .page-link {
   color: #fff;
-  background-color: var(--theme-analog-1);
+  background-color: var(--theme);
+  border-color: var(--theme);
 }

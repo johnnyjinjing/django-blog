@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView
 from django.views.generic.dates import MonthArchiveView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.utils import timezone
 
 import markdown
 
@@ -129,7 +130,7 @@ class PostAuthorListView(PaginatedListView):
         return context
 
 
-# Post detail view
+# Post detail views
 class PostDetailView(DetailView):
     """ View of single blog page
     """
@@ -196,13 +197,32 @@ class PostCreate(CreateView):
         form.instance.author = self.request.user
         if 'publish' in self.request.POST:
             form.instance.published = True
+            form.save()
         elif 'draft' in self.request.POST:
             form.instance.published = False
+            form.save()
         elif "discard" in self.request.POST:
             return redirect(reverse('blog:post_user_list',
                 args=[self.request.user.user_profile.slug,]))
+        elif 'preview' in self.request.POST:
+            post = form.save(commit=False)
+            post.created_time = timezone.now()
+            post.id = 1
+            post.body = markdown.markdown(post.body,
+                extensions=[
+                    'markdown.extensions.extra',
+                    'markdown.extensions.codehilite',
+                    'markdown.extensions.toc',
+                ])
+            context = {
+                'post': post,
+                'tags': form.cleaned_data['tags'],
+                'title': 'Preview Post:'
+            }
+            # return render(self.request, 'blog/detail_preview.html',
+            #     context=context)
+            return redirect(postDetailPreview, post.slug, context=context)
 
-        form.save()
         return super(PostCreate, self).form_valid(form)
 
     def form_invalid(self, form):
@@ -229,13 +249,29 @@ class PostUpdate(UpdateView):
     def form_valid(self, form):
         if 'publish' in self.request.POST:
             form.instance.published = True
+            form.save()
         elif 'draft' in self.request.POST:
             form.instance.published = False
-        elif "delete" in self.request.POST:
+            form.save()
+        elif 'delete' in self.request.POST:
             return redirect(reverse('blog:delete_post',
                 args=[self.kwargs.get('slug'),]))
+        elif 'preview' in self.request.POST:
+            post = form.save(commit=False)
+            post.body = markdown.markdown(post.body,
+                extensions=[
+                    'markdown.extensions.extra',
+                    'markdown.extensions.codehilite',
+                    'markdown.extensions.toc',
+                ])
+            context = {
+                'post': post,
+                'tags': form.cleaned_data['tags'],
+                'title': 'Preview Post:'
+            }
+            return render(self.request, "blog/detail_preview.html",
+                context=context)
 
-        form.save()
         return super(PostUpdate, self).form_valid(form)
 
     def form_invalid(self, form):
