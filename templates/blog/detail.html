@@ -19,7 +19,7 @@
                     <i class="fa fa-calendar-o" aria-hidden="true"></i><a href="{% url 'blog:archive' post.created_time|date:'Y' post.created_time|date:'m' %}"> {{ post.created_time | date:"Y-m-d" }} </a>
                 </div>
                 <div class="col text-right">
-                    <i class="fa fa-comment-o" aria-hidden="true"></i><a href="#"> 0 comments </a>
+                    <i class="fa fa-comment-o" aria-hidden="true"></i><a href="#"> {{ post.comment_set.count }} comments </a>
                 </div>
             </div>
             <hr class="my-1">
@@ -40,7 +40,7 @@
 
 <!-- Comment -->
 <div class="card mb-4" id="comment">
-    <h5 class="card-header">Comments</h5>
+    <h5 class="card-header">Comments ({{ post.comment_set.count }})</h5>
     <div class="card-body">
          <!-- if user is in 'reader' group, display the comment form -->
         {% if request.user|has_group:"reader" %}

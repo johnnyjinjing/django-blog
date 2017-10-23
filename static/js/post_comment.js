@@ -13,7 +13,7 @@ $(document).ready(function(){
         $(this).parent().siblings(".comment-form-reply").show();
     });
 
-    $(".button-hide-form").bind("click.a", function(e){
+    $(".button-hide-form").bind("click", function(e){
         e.preventDefault();
         $(this).parent().hide();
     });
