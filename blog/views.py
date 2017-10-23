@@ -12,6 +12,7 @@ import markdown
 from .models import Post, Category, Tag
 from account.decorators import group_required
 from .base_views import PaginatedListView, MiscCreateMixin
+from comment.forms import CommentForm
 
 
 class PostIndexListView(PaginatedListView):
@@ -50,6 +51,16 @@ class PostDetailView(DetailView):
     def get_queryset(self):
         return super(PostDetailView, self).get_queryset().filter(
             published=True)
+
+    def get_context_data(self, **kwargs):
+        context = super(PostDetailView, self).get_context_data(**kwargs)
+        form = CommentForm()
+        comment_list = self.object.comment_set.all()
+        context.update({
+            'form': form,
+            'comment_list': comment_list
+        })
+        return context
 
 
 class PostMonthArchiveView(MonthArchiveView, PaginatedListView):

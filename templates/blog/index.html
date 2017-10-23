@@ -2,100 +2,58 @@
 
 {% block content %}
 
-    {% if title %}
-        <h4 class="mb-4">{{ title }}</h4>
-    {% endif %}
+{% if title %}
+    <h4 class="mb-4">{{ title }}</h4>
+{% endif %}
 
-    {% for post in post_list %}
-        <div class="card mb-4">
+{% for post in post_list %}
+    <div class="card mb-4">
 
-            <!-- Post title and body -->
-            <div class="card-body">
-                <h2 class="card-title">{{ post.title }}</h2>
-                <hr class="my-4">
-                <p class="card-text">{{ post.body | truncatechars_html:500 | safe }}</p>
-                <a href="{{ post.get_absolute_url }}" class="btn btn-primary btn-sm color-theme">Read more</a>
-            </div>
+        <!-- Post title and body -->
+        <div class="card-body">
+            <h2 class="card-title">{{ post.title }}</h2>
+            <hr class="my-4">
+            <p class="card-text">{{ post.body | truncatechars_html:500 | safe }}</p>
+            <a href="{{ post.get_absolute_url }}" class="btn btn-primary btn-sm color-theme">Read more</a>
+        </div>
 
-            <!-- Post misc -->
-            <div class="card-footer text-muted footnote">
-                <div class="container">
-                    <div class="row">
-                        <div class="col text-left">
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;<a href="#">{{ post.author }}</a>
-                        </div>
-                        <div class="col text-center">
-                            <i class="fa fa-calendar-o" aria-hidden="true"></i>&nbsp;<a href="{% url 'blog:archive' post.created_time|date:'Y' post.created_time|date:'m' %}">{{ post.created_time | date:"Y-m-d" }}</a>
-                        </div>
-                        <div class="col text-right">
-                            <i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;<a href="#">0 comments</a>
-                        </div>
+        <!-- Post misc -->
+        <div class="card-footer text-muted footnote">
+            <div class="container">
+                <div class="row">
+                    <div class="col text-left">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;<a href="#">{{ post.author }}</a>
                     </div>
-                    <hr class="my-1">
-                    <div class="row">
-                        <span class="col text-left">
-                            <i class="fa fa-folder-o" aria-hidden="true"></i>&nbsp;<a href="{% url 'blog:category' post.category.slug %}">{{ post.category }}</a>
-                        </span>
-                        <div class="col text-right">
-                            {% if post.tags.all %}
-                                <i class="fa fa-tag" aria-hidden="true"></i>&nbsp;{% for tag in post.tags.all %}<a href="{% url 'blog:tag' tag.slug %}">{{ tag }}</a>{% if not forloop.last %},&nbsp;{% endif %}{% endfor %}
-                            {% endif %}
-                        </div>
+                    <div class="col text-center">
+                        <i class="fa fa-calendar-o" aria-hidden="true"></i>&nbsp;<a href="{% url 'blog:archive' post.created_time|date:'Y' post.created_time|date:'m' %}">{{ post.created_time | date:"Y-m-d" }}</a>
+                    </div>
+                    <div class="col text-right">
+                        <i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;<a href="#">0 comments</a>
+                    </div>
+                </div>
+                <hr class="my-1">
+                <div class="row">
+                    <span class="col text-left">
+                        <i class="fa fa-folder-o" aria-hidden="true"></i>&nbsp;<a href="{% url 'blog:category' post.category.slug %}">{{ post.category }}</a>
+                    </span>
+                    <div class="col text-right">
+                        {% if post.tags.all %}
+                            <i class="fa fa-tag" aria-hidden="true"></i>&nbsp;{% for tag in post.tags.all %}<a href="{% url 'blog:tag' tag.slug %}">{{ tag }}</a>{% if not forloop.last %},&nbsp;{% endif %}{% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
-
         </div>
 
-    {% empty %}
-        <div class="no-post">There are no posts.</div>
-    {% endfor %}
+    </div>
 
-    <!-- Pagination -->
-    {% if is_paginated %}
-        <nav aria-label="...">
-            <ul class="pagination justify-content-center">
+{% empty %}
+    <div class="no-post">There are no posts.</div>
+{% endfor %}
 
-                <li {% if page_obj.number == 1 %} class="page-item disabled" {% else %} class="page-item" {% endif %}>
-                    <a class="page-link" href="?page={{ page_obj.number | add:-1 }}">Previous</a>
-                </li>
-
-                {% if first %}
-                    <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
-                {% endif %}
-
-                {% if left %}
-                    {% if left_has_more %}
-                        <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
-                    {% endif %}
-                    {% for i in left %}
-                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-                    {% endfor %}
-                {% endif %}
-
-                <li class="page-item active">
-                    <a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}<span class="sr-only">(current)</span></a>
-                </li>
-
-
-                {% if right %}
-                    {% for i in right %}
-                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-                    {% endfor %}
-                    {% if right_has_more %}
-                        <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
-                    {% endif %}
-                {% endif %}
-
-                {% if last %}
-                    <li class="page-item"><a class="page-link" href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
-                {% endif %}
-
-                <li {% if page_obj.number == paginator.num_pages %} class="page-item disabled" {% else %} class="page-item" {% endif %}>
-                        <a class="page-link" href="?page={{ page_obj.number | add:1 }}">Next</a>
-                </li>
-            </ul>
-        </nav>
-    {% endif %}
+<!-- Pagination -->
+{% include "pagination.html" %}
 
 {% endblock content %}
+
+

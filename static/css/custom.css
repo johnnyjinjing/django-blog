@@ -16,6 +16,11 @@
     background-color: var(--theme);
 }
 
+/* general */
+.float-right {
+    float: right;
+}
+
 /* button */
 .btn-primary {
     background-color: var(--theme);
@@ -139,7 +144,7 @@ ul.comment-children {
 }
 
 li.comment-list {
-    padding: 0.25rem 0.25rem;
+    padding: 0.25rem 0rem 0.25rem 0.25rem;
 }
 
 p.comment-header {
@@ -163,6 +168,27 @@ img.user-avartar {
     padding-right: 0px;
 }
 
+.right-tight {
+    padding-right: 0px;
+}
+
+/* font-awesome*/
+.fa-theme {
+    color: lightgray;
+}
+
+.fa-theme:hover {
+    color: var(--theme);
+}
+
+.fa-color-green {
+    color: green;
+}
+
+.fa-color-red {
+    color: red;
+}
+
 /* form */
 span.field-required{
     font-weight: bold;
@@ -181,4 +207,13 @@ table tbody tr td.cell-center, table thead tr th.cell-center {
 table thead th.no-border {
   border: none;
   border-bottom: none;
+}
+
+/* pagination */
+.page-item .page-link {
+    color: var(--theme);
+}
+.page-item.active .page-link {
+  color: #fff;
+  background-color: var(--theme-analog-1);
 }
