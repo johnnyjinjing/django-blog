@@ -62,7 +62,11 @@
                     <div class="container-fluid right-tight">
                         <div class="row">
                             <div class="col-sm-1 text-center no-horizonal-padding">
-                                <img src="{{ node.author.user_profile.avatar.url }}" class="img-thumbnail user-avartar" alt="image">
+                                {% if node.author.user_profile.avatar %}
+                                    <img src="{{ node.author.user_profile.avatar.url }}" class="img-thumbnail user-avartar" alt="image">
+                                {% else %}
+                                    <img src="{% static 'images/default_avatar.png' %}" class="img-thumbnail user-avartar" alt="image">
+                                {% endif %}
                             </div>
                             <div class="col-sm-11">
                                 <p class="comment-header">{{ node.author }} <span class="text-muted">&#183; {{ node.created_time | timesince }} ago</span></p>

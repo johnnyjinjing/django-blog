@@ -8,7 +8,7 @@ from .forms import CommentForm
 from account.decorators import group_required
 
 @login_required
-@group_required('reader')
+# @group_required('reader')
 def comment(request, post_slug):
     post = get_object_or_404(Post, slug=post_slug)
 

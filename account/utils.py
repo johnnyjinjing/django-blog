@@ -59,22 +59,15 @@ class UploadToPathAndRename(object):
 def create_avatar(file_path):
     """ Create avartar from the picture uploaded
     """
-    MAX_WIDTH, MAX_HEIGHT = 200, 200
 
-    # Open file
+    size = 256, 256
+
     img = Image.open(file_path)
+    img.thumbnail(size, Image.ANTIALIAS)
 
-    # Store original image width and height
-    w, h = img.size
-
-    # Replace width and height by the maximum values
-    w = int(MAX_WIDTH or w)
-    h = int(MAX_HEIGHT or h)
-
-    # Proportinally resize
-    img.thumbnail((w, h), Image.ANTIALIAS)
-
-    # Save in (optional) 'save_as' or in the original path
-    img.save(file_path)
+    avatar = Image.new(mode='RGBA', size=size, color=(255,255,255,0))
+    avatar.paste(img, (max((size[0] - img.size[0]) / 2, 0),
+        max((size[1] - img.size[1]) / 2, 0)))
+    avatar.save(file_path,'PNG')
 
     return True
