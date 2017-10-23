@@ -13,8 +13,10 @@ from .models import Post, Category, Tag
 from account.decorators import group_required
 from .base_views import PaginatedListView, MiscCreateMixin
 from comment.forms import CommentForm
+from account.models import UserProfile
 
 
+# Post List views
 class PostIndexListView(PaginatedListView):
     """ View of Blog index page
     """
@@ -28,6 +30,106 @@ class PostIndexListView(PaginatedListView):
             published=True)
 
 
+class PostMonthArchiveView(MonthArchiveView, PaginatedListView):
+    """ View of Monthly Archive page
+    """
+
+    template_name = 'blog/index.html'
+    context_object_name = 'post_list'
+    date_field = 'created_time' # archive by this field
+    allow_empty = False # raise 404 error if there are no posts
+    model = Post
+
+    MONTH_DICT = {'01':'Jan', '02':'Feb', '03':'Mar', '04':'Apr', '05':'May',
+        '06':'Jun', '07':'Jul', '08':'Aug', '09':'Sep', '10':'Oct', '11':'Nov',
+        '12':'Dec'}
+
+    def get_queryset(self):
+        return super(PostMonthArchiveView, self).get_queryset().filter(
+            published=True)
+
+    def get_context_data(self, **kwargs):
+        context = super(PostMonthArchiveView, self).get_context_data(**kwargs)
+        title_string = 'Posts published in: ' \
+            + self.MONTH_DICT[str(self.kwargs.get('month'))] \
+            + ', ' + str(self.kwargs.get('year'))
+        context.update({
+            'title': title_string
+        })
+        return context
+
+
+class PostCategoryListView(PaginatedListView):
+    """ View of categoty page
+    """
+
+    template_name = 'blog/index.html'
+    context_object_name = 'post_list'
+    allow_empty = False # raise 404 error if there are no posts
+    model = Post
+
+    def get_queryset(self):
+        self.cat = get_object_or_404(Category, slug=self.kwargs.get('slug'))
+        return super(PostCategoryListView, self).get_queryset().filter(
+            category=self.cat, published=True)
+
+    def get_context_data(self, **kwargs):
+        context = super(PostCategoryListView, self).get_context_data(**kwargs)
+        title_string = 'Posts in Category: ' + self.cat.name
+        context.update({
+            'title': title_string
+        })
+        return context
+
+
+class PostTagListView(PaginatedListView):
+    """ View of tag page
+    """
+
+    template_name = 'blog/index.html'
+    context_object_name = 'post_list'
+    allow_empty = False # raise 404 error if there are no posts
+    model = Post
+
+    def get_queryset(self):
+        self.tag = get_object_or_404(Tag, slug=self.kwargs.get('slug'))
+        return super(PostTagListView, self).get_queryset().filter(
+            tags=self.tag, published=True)
+
+    def get_context_data(self, **kwargs):
+        context = super(PostTagListView, self).get_context_data(**kwargs)
+        title_string = 'Posts with Tag: ' + self.tag.name
+        context.update({
+            'title': title_string
+        })
+        return context
+
+
+class PostAuthorListView(PaginatedListView):
+    """ View of author page
+    """
+
+    template_name = 'blog/index.html'
+    context_object_name = 'post_list'
+    allow_empty = False # raise 404 error if there are no posts
+    model = Post
+
+    def get_queryset(self):
+        self.author = get_object_or_404(UserProfile,
+            slug=self.kwargs.get('slug')).user
+        return super(PostAuthorListView, self).get_queryset().filter(
+            author=self.author, published=True)
+
+    def get_context_data(self, **kwargs):
+        context = super(PostAuthorListView, self).get_context_data(**kwargs)
+        title_string = 'Posts by Author: ' + self.author.username
+        context.update({
+            'title': title_string
+        })
+        return context
+
+
+# Post detail view
 class PostDetailView(DetailView):
     """ View of single blog page
     """
@@ -63,107 +165,21 @@ class PostDetailView(DetailView):
         return context
 
 
-class PostMonthArchiveView(MonthArchiveView, PaginatedListView):
-    """ View of Monthly Archive page
+# Post backend
+@method_decorator(login_required, name='dispatch')
+@method_decorator(group_required(True, 'writer'),
+    name='dispatch')
+class PostUserListView(PaginatedListView):
+    """ View to show posts by particular user for edit
     """
 
-    template_name = 'blog/index.html'
+    template_name = 'blog/post_list.html'
     context_object_name = 'post_list'
-    date_field = 'created_time' # archive by this field
-    allow_empty = False # raise 404 error if there are no posts
-    model = Post
-
-    MONTH_DICT = {'01':'Jan', '02':'Feb', '03':'Mar', '04':'Apr', '05':'May',
-        '06':'Jun', '07':'Jul', '08':'Aug', '09':'Sep', '10':'Oct', '11':'Nov',
-        '12':'Dec'}
-
-    def get_queryset(self):
-        return super(PostMonthArchiveView, self).get_queryset().filter(
-            published=True)
-
-    def get_context_data(self, **kwargs):
-        context = super(MonthArchiveView, self).get_context_data(**kwargs)
-        title_string = 'Posts published in: ' \
-            + self.MONTH_DICT[str(self.kwargs.get('month'))] \
-            + ', ' + str(self.kwargs.get('year'))
-        context.update({
-            'title': title_string
-        })
-        return context
-
-
-class PostCategoryListView(PaginatedListView):
-    """ View of categoty page
-    """
-
-    template_name = 'blog/index.html'
-    context_object_name = 'post_list'
-    allow_empty = False # raise 404 error if there are no posts
     model = Post
 
     def get_queryset(self):
-        self.cat = get_object_or_404(Category, slug=self.kwargs.get('slug'))
-        return super(PostCategoryListView, self).get_queryset().filter(
-            category=self.cat, published=True)
-
-    def get_context_data(self, **kwargs):
-        context = super(PaginatedListView, self).get_context_data(**kwargs)
-        title_string = 'Posts in Category: ' + self.cat.name
-        context.update({
-            'title': title_string
-        })
-        return context
-
-
-class PostTagListView(PaginatedListView):
-    """ View of tag page
-    """
-
-    template_name = 'blog/index.html'
-    context_object_name = 'post_list'
-    allow_empty = False # raise 404 error if there are no posts
-    model = Post
-
-    def get_queryset(self):
-        self.tag = get_object_or_404(Tag, slug=self.kwargs.get('slug'))
-        return super(PostTagListView, self).get_queryset().filter(
-            tags=self.tag, published=True)
-
-    def get_context_data(self, **kwargs):
-        context = super(PaginatedListView, self).get_context_data(**kwargs)
-        title_string = 'Posts with Tag: ' + self.tag.name
-        context.update({
-            'title': title_string
-        })
-        return context
-
-
-class CategoryCreate(MiscCreateMixin):
-    """ View to create category
-    """
-    template_name = 'blog/action/create_category.html'
-    model = Category
-    fields = ['name']
-
-    def get_success_url(self):
-        if 'next' in self.request.GET:
-            return self.request.GET.get('next')
-        else:
-            return reverse('blog:index')
-
-
-class TagCreate(MiscCreateMixin):
-    """ View to create tag
-    """
-    template_name = 'blog/action/create_tag.html'
-    model = Tag
-    fields = ['name']
-
-    def get_success_url(self):
-        if 'next' in self.request.GET:
-            return self.request.GET.get('next')
-        else:
-            return reverse('blog:index')
+        return super(PostUserListView, self).get_queryset().filter(
+            author=self.request.user)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -248,17 +264,30 @@ class PostDelete(DeleteView):
         args=[self.request.user.user_profile.slug,])
 
 
-@method_decorator(login_required, name='dispatch')
-@method_decorator(group_required(True, 'writer'),
-    name='dispatch')
-class PostUserListView(PaginatedListView):
-    """ View to show posts by particular user for edit
+# Other backend
+class CategoryCreate(MiscCreateMixin):
+    """ View to create category
     """
+    template_name = 'blog/action/create_category.html'
+    model = Category
+    fields = ['name']
 
-    template_name = 'blog/post_list.html'
-    context_object_name = 'post_list'
-    model = Post
+    def get_success_url(self):
+        if 'next' in self.request.GET:
+            return self.request.GET.get('next')
+        else:
+            return reverse('blog:index')
 
-    def get_queryset(self):
-        return super(PostUserListView, self).get_queryset().filter(
-            author=self.request.user)
+
+class TagCreate(MiscCreateMixin):
+    """ View to create tag
+    """
+    template_name = 'blog/action/create_tag.html'
+    model = Tag
+    fields = ['name']
+
+    def get_success_url(self):
+        if 'next' in self.request.GET:
+            return self.request.GET.get('next')
+        else:
+            return reverse('blog:index')
