@@ -21,6 +21,13 @@
     float: right;
 }
 
+h1 { font-size: 2em; }
+h2 { font-size: 1.5em; }
+h3 { font-size: 1.17em; }
+h4 { font-size: 1.12em; }
+h5 { font-size: .83em; }
+h6 { font-size: .75em; }
+
 /* button */
 .btn-primary {
     background-color: var(--theme);
@@ -52,12 +59,6 @@ body {
     padding-top: 54px;
 }
 
-@media (min-width: 992px) {
-    body {
-        padding-top: 56px;
-    }
-}
-
 /* footer */
 html {
     position: relative;
@@ -78,11 +79,6 @@ footer {
 
 footer p {
     margin: 18px 0;
-}
-
-/* card footer */
-.footnote {
-    font-size: 13px;
 }
 
 /* widget */
@@ -162,7 +158,7 @@ img.user-avartar {
     min-height: 40px;
     min-width: 40px;
     padding: 0px;
-    margin-top: 0.25rem;
+    margin: 0.1rem;
 }
 
 .no-horizonal-padding {
@@ -174,7 +170,11 @@ img.user-avartar {
     padding-right: 0px;
 }
 
-/* font-awesome*/
+.left-tight {
+    padding-right: 0px;
+}
+
+/* font-awesome */
 .fa-theme {
     color: lightgray;
 }
@@ -220,3 +220,17 @@ table thead th.no-border {
   background-color: var(--theme);
   border-color: var(--theme);
 }
+
+/* toc */
+.toc ul {
+    padding-left: 1.5em;
+}
+
+*[id]:before {
+  display: block;
+  content: " ";
+  margin-top: -64px;
+  height: 64px;
+  visibility: hidden;
+}
+

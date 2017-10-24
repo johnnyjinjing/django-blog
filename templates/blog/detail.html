@@ -5,33 +5,39 @@
 
 <div class="card mb-4">
     <div class="card-body">
-        <h2 class="card-title">{{ post.title }}</h2>
-        <hr class="my-4">
-        <p class="card-text">{{ post.body | safe }}</p>
+        <!-- title -->
+        <h1 class="card-title text-center">{{ post.title }}</h1>
+        <!-- author, publish date, number of comments -->
+        <ul class="list-inline text-muted small text-center">
+            <li class="list-inline-item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i><a href="{% url 'blog:author' post.author.user_profile.slug %}"> {{ post.author }} </a></li>
+            <li class="list-inline-item"><i class="fa fa-calendar-o" aria-hidden="true"></i><a href="{% url 'blog:archive' post.created_time|date:'Y' post.created_time|date:'m' %}"> {{ post.created_time | date:"Y-m-d" }} </a></li>
+            <li class="list-inline-item"><i class="fa fa-comment-o" aria-hidden="true"></i><a href="#comment"> {{ post.comment_set.count }} {% if post.comment_set.count == 1%}comment{% else %}comments{% endif %} </a></li>
+        </ul>
+        <!-- post body -->
+        <p class="card-text" id="post-body">{{ post.body | safe }}</p>
     </div>
-    <div class="card-footer text-muted footnote">
-        <div class="container">
-            <div class="row">
-                <div class="col text-left">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i><a href="{% url 'blog:author' post.author.user_profile.slug %}"> {{ post.author }} </a>
-                </div>
-                <div class="col text-center">
-                    <i class="fa fa-calendar-o" aria-hidden="true"></i><a href="{% url 'blog:archive' post.created_time|date:'Y' post.created_time|date:'m' %}"> {{ post.created_time | date:"Y-m-d" }} </a>
-                </div>
-                <div class="col text-right">
-                    <i class="fa fa-comment-o" aria-hidden="true"></i><a href="#comment"> {{ post.comment_set.count }} {% if post.comment_set.count == 1%}comment{% else %}comments{% endif %} </a>
-                </div>
+    <!-- post misc -->
+    <div class="card-footer text-muted small">
+        <div class="row">
+            <div class="col text-left">
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i><a href="{% url 'blog:author' post.author.user_profile.slug %}"> {{ post.author }}</a>
             </div>
-            <hr class="my-1">
-            <div class="row">
-                <span class="col text-left">
-                    <i class="fa fa-folder-o" aria-hidden="true"></i><a href="{% url 'blog:category' post.category.slug %}"> {{ post.category }} </a>
-                </span>
-                <div class="col text-right">
-                    {% if post.tags.all %}
-                        <i class="fa fa-tag" aria-hidden="true"></i> {% for tag in post.tags.all %}<a href="{% url 'blog:tag' tag.slug %}">{{ tag }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}
-                    {% endif %}
-                </div>
+            <div class="col text-center">
+                <i class="fa fa-calendar-o" aria-hidden="true"></i><a href="{% url 'blog:archive' post.created_time|date:'Y' post.created_time|date:'m' %}"> {{ post.created_time | date:"Y-m-d" }}</a>
+            </div>
+            <div class="col text-right">
+                <i class="fa fa-comment-o" aria-hidden="true"></i><a href="{{ post.get_absolute_url }}#comment"> {{ post.comment_set.count }} {% if post.comment_set.count == 1%}comment{% else %}comments{% endif %} </a>
+            </div>
+        </div>
+        <hr class="my-1">
+        <div class="row">
+            <span class="col text-left">
+                <i class="fa fa-folder-o" aria-hidden="true"></i><a href="{% url 'blog:category' post.category.slug %}"> {{ post.category }}</a>
+            </span>
+            <div class="col text-right">
+                {% if post.tags.all %}
+                    <i class="fa fa-tag" aria-hidden="true"></i> {% for tag in post.tags.all %}<a href="{% url 'blog:tag' tag.slug %}">{{ tag }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>
@@ -40,7 +46,7 @@
 
 <!-- Comment -->
 <div class="card mb-4" id="comment">
-    <h5 class="card-header">Comments ({{ post.comment_set.count }})</h5>
+    <h3 class="card-header">Comments ({{ post.comment_set.count }})</h3>
     <div class="card-body">
          <!-- if user is in 'reader' group, display the comment form -->
         {% if request.user|has_group:"reader" %}
@@ -53,48 +59,45 @@
         {% else %}
             <p class="text-widget">You are not logged in. <a class="color-theme-font" href="{% url 'auth_login' %}?next={{ request.path }}">Log in</a> to write a comment.</p>
         {% endif %}
-
         <!-- display comments-->
         {% load mptt_tags %}
         <ul class="comment-root list-group mt-4">
             {% recursetree comment_list %}
                 <li class="list-group-item comment-list border-left-0 border-right-0 border-bottom-0 right-tight">
-                    <div class="container-fluid right-tight">
-                        <div class="row">
-                            <div class="col-sm-1 text-center no-horizonal-padding">
-                                {% if node.author.user_profile.avatar %}
-                                    <img src="{{ node.author.user_profile.avatar.url }}" class="img-thumbnail user-avartar" alt="image">
+                    <div class="row right-tight">
+                        <div class="col-md-2 col-lg-1 text-center left-tight">
+                            {% if node.author.user_profile.avatar %}
+                                <img src="{{ node.author.user_profile.avatar.url }}" class="img-thumbnail user-avartar" alt="image">
+                            {% else %}
+                                <img src="{% static 'images/default_avatar.png' %}" class="img-thumbnail user-avartar" alt="image">
+                            {% endif %}
+                        </div>
+                        <div class="col-md-10 col-lg-11">
+                            <p class="comment-header">{{ node.author }} <span class="text-muted">&#183; {{ node.created_time | timesince }} ago</span></p>
+                            <p class="comment-text">{{ node.body }}</p>
+                            <p class="comment-header text-muted text-right"><a href="#" class="comment-reply">Reply</a></p>
+
+                            <!-- reply form -->
+                            <div class="comment-form-reply">
+                                {% if request.user|has_group:"reader" %}
+                                    <a href="#" class="button-hide-form"><i class="fa fa-times fa-theme float-right" aria-hidden="true"></i></a>
+                                    <form id="comment_form" novalidate method="post" action="{% url 'comment' post.slug %}">
+                                        {% csrf_token %}
+                                        {% include 'base_form.html' with form=form %}
+                                        <div class=text-right><button type="submit" class="btn btn-primary">Reply</button></div>
+                                        <input type="hidden" name="parent" id="parent_id" value="{{ node.id }}" />
+                                    </form>
                                 {% else %}
-                                    <img src="{% static 'images/default_avatar.png' %}" class="img-thumbnail user-avartar" alt="image">
+                                    <p class="text-widget">You are not logged in. <a class="color-theme-font" href="{% url 'auth_login' %}?next={{ request.path }}">Log in</a> to reply.</p>
                                 {% endif %}
                             </div>
-                            <div class="col-sm-11">
-                                <p class="comment-header">{{ node.author }} <span class="text-muted">&#183; {{ node.created_time | timesince }} ago</span></p>
-                                <p class="comment-text">{{ node.body }}</p>
-                                <p class="comment-header text-muted text-right"><a href="#" class="comment-reply">Reply</a></p>
+                            <!-- end reply form -->
 
-                                <!-- reply form -->
-                                <div class="comment-form-reply">
-                                    {% if request.user|has_group:"reader" %}
-                                        <a href="#" class="button-hide-form"><i class="fa fa-times fa-theme float-right" aria-hidden="true"></i></a>
-                                        <form id="comment_form" novalidate method="post" action="{% url 'comment' post.slug %}">
-                                            {% csrf_token %}
-                                            {% include 'base_form.html' with form=form %}
-                                            <div class=text-right><button type="submit" class="btn btn-primary">Reply</button></div>
-                                            <input type="hidden" name="parent" id="parent_id" value="{{ node.id }}" />
-                                        </form>
-                                    {% else %}
-                                        <p class="text-widget">You are not logged in. <a class="color-theme-font" href="{% url 'auth_login' %}?next={{ request.path }}">Log in</a> to reply.</p>
-                                    {% endif %}
-                                </div>
-                                <!-- end reply form -->
-
-                                {% if not node.is_leaf_node %}
-                                    <ul class="comment-children list-group">
-                                        {{ children }}
-                                    </ul>
-                                {% endif %}
-                            </div>
+                            {% if not node.is_leaf_node %}
+                                <ul class="comment-children list-group">
+                                    {{ children }}
+                                </ul>
+                            {% endif %}
                         </div>
                     </div>
                 </li>
@@ -104,6 +107,13 @@
     </div>
 </div>
 {% endblock content %}
+
+{% block toc %}
+{% if post.toc  %}
+    <h2 class="mb-2">Table of Contents</h2>
+    {{ post.toc | safe }}
+{% endif %}
+{% endblock toc %}
 
 {% block javascript %}
 <script src="{% static 'js/post_comment.js' %}"></script>

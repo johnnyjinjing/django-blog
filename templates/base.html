@@ -68,7 +68,7 @@
 
                 <!-- Categories Widget -->
                 <div class="card my-4">
-                    <h5 class="card-header">Catagories</h5>
+                    <h3 class="card-header">Catagories</h3>
                     <div class="card-body">
                         {% get_categories as category_list %}
                         <ul class="list-widget">
@@ -85,7 +85,7 @@
 
                 <!-- Tags Widget -->
                 <div class="card my-4">
-                    <h5 class="card-header">Tags</h5>
+                    <h3 class="card-header">Tags</h3>
                     <div class="card-body">
                         {% get_tags as tag_list %}
                             <p class="text-widget">
@@ -100,7 +100,7 @@
 
                 <!-- Archives Widget -->
                 <div class="card my-4">
-                    <h5 class="card-header">Archives</h5>
+                    <h3 class="card-header">Archives</h3>
                     <div class="card-body">
                         {% get_archives as archive_list %}
                         <ul class="list-widget">
@@ -114,6 +114,10 @@
                         </ul>
                     </div>
                 </div>
+
+                <!-- Table of content -->
+                {% block toc %}
+                {% endblock toc %}
 
             </aside>
         </div>

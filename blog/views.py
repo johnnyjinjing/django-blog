@@ -2,12 +2,14 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.text import slugify
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView
 from django.views.generic.dates import MonthArchiveView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 import markdown
+from markdown.extensions.toc import TocExtension
 
 from .base_views import PaginatedListView, MiscCreateMixin
 from .models import Post, Category, Tag
@@ -142,12 +144,17 @@ class PostDetailView(DetailView):
         post = super(PostDetailView, self).get_object()
 
         # markdown support
-        post.body = markdown.markdown(post.body,
-            extensions=[
-                'markdown.extensions.extra',
-                'markdown.extensions.codehilite',
-                'markdown.extensions.toc',
-            ])
+        md = markdown.Markdown(extensions=[
+            'markdown.extensions.extra',
+            'markdown.extensions.codehilite',
+            TocExtension(slugify=slugify),
+        ])
+
+        post.body = md.convert(post.body)
+
+        # default is: <div class="toc"><ul></ul></div>, which length is 35
+        if len(md.toc) > 35:
+            post.toc = md.toc
 
         return post
 
@@ -207,12 +214,17 @@ class PostCreate(CreateView):
             post = form.save(commit=False)
             post.created_time = timezone.now()
             post.id = 1
-            post.body = markdown.markdown(post.body,
-                extensions=[
-                    'markdown.extensions.extra',
-                    'markdown.extensions.codehilite',
-                    'markdown.extensions.toc',
-                ])
+
+            # markdown
+            md = markdown.Markdown(extensions=[
+                'markdown.extensions.extra',
+                'markdown.extensions.codehilite',
+                TocExtension(slugify=slugify),
+            ])
+            post.body = md.convert(post.body)
+            if len(md.toc) > 35:
+                post.toc = md.toc
+
             context = {
                 'post': post,
                 'tags': form.cleaned_data['tags'],
@@ -254,12 +266,17 @@ class PostUpdate(UpdateView):
                 args=[self.kwargs.get('slug'),]))
         elif 'preview' in self.request.POST:
             post = form.save(commit=False)
-            post.body = markdown.markdown(post.body,
-                extensions=[
-                    'markdown.extensions.extra',
-                    'markdown.extensions.codehilite',
-                    'markdown.extensions.toc',
-                ])
+
+            # markdown
+            md = markdown.Markdown(extensions=[
+                'markdown.extensions.extra',
+                'markdown.extensions.codehilite',
+                TocExtension(slugify=slugify),
+            ])
+            post.body = md.convert(post.body)
+            if len(md.toc) > 35:
+                post.toc = md.toc
+
             context = {
                 'post': post,
                 'tags': form.cleaned_data['tags'],
