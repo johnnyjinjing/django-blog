@@ -3,6 +3,7 @@ from django.conf.urls import url
 from . import views
 
 app_name = 'blog'
+
 urlpatterns = [
 
     # display views
@@ -20,7 +21,7 @@ urlpatterns = [
         name='author'),
 
     # post backend views
-    url(r'^post/author/(?P<slug>[\w\-]+)/$', views.PostUserListView.as_view(),
+    url(r'^myposts/$', views.PostUserListView.as_view(),
         name='post_user_list'),
     url(r'^action/create_post/$', views.PostCreate.as_view(),
         name='create_blog'),

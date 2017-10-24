@@ -58,10 +58,10 @@
                 <div class="card my-4">
                     <div class="card-body">
                         {% if user.is_authenticated %}
-                            <p class="text-widget">You are logged in as <a class="color-theme-font" href="{% url 'user_profile' user.user_profile.slug %}">{{ user.username }}</a>. (<a class="color-theme-font" href="{% url 'auth_logout' %}">Log out</a>)</p>
+                            <p class="text-widget">You are logged in as <a class="color-theme-font" href="{% url 'user_profile' user.user_profile.slug %}">{{ user.username }}</a>. (<a class="color-theme-font" href="{% url 'auth_logout' %}?next={{ request.path }}">Log out</a>)</p>
                         {% else %}
                             <p class="text-widget">You are not logged in.</p>
-                            <p class="text-widget"><a class="color-theme-font" href="{% url 'auth_login' %}">Log in</a>, <a class="color-theme-font" href="{% url 'registration_register' %}">register</a> or <a class="color-theme-font" href="{% url 'auth_password_reset' %}">forgot password</a>.</p>
+                            <p class="text-widget"><a class="color-theme-font" href="{% url 'auth_login' %}?next={{ request.path }}">Log in</a>, <a class="color-theme-font" href="{% url 'registration_register' %}">register</a> or <a class="color-theme-font" href="{% url 'auth_password_reset' %}">forgot password</a>.</p>
                         {% endif %}
                     </div>
                 </div>

@@ -202,8 +202,7 @@ class PostCreate(CreateView):
             form.instance.published = False
             form.save()
         elif "discard" in self.request.POST:
-            return redirect(reverse('blog:post_user_list',
-                args=[self.request.user.user_profile.slug,]))
+            return redirect(reverse('blog:post_user_list'))
         elif 'preview' in self.request.POST:
             post = form.save(commit=False)
             post.created_time = timezone.now()
@@ -217,23 +216,20 @@ class PostCreate(CreateView):
             context = {
                 'post': post,
                 'tags': form.cleaned_data['tags'],
-                'title': 'Preview Post:'
+                'title': 'Preview:'
             }
-            # return render(self.request, 'blog/detail_preview.html',
-            #     context=context)
-            return redirect(postDetailPreview, post.slug, context=context)
+            return render(self.request, 'blog/detail_preview.html',
+                context=context)
 
         return super(PostCreate, self).form_valid(form)
 
     def form_invalid(self, form):
         if "discard" in self.request.POST:
-            return redirect(reverse('blog:post_user_list',
-                args=[self.request.user.user_profile.slug,]))
+            return redirect(reverse('blog:post_user_list'))
         return super(PostCreate, self).form_invalid(form)
 
     def get_success_url(self):
-        return reverse('blog:post_user_list',
-        args=[self.request.user.user_profile.slug,])
+        return reverse('blog:post_user_list')
 
 
 @method_decorator(login_required, name='dispatch')
@@ -267,7 +263,7 @@ class PostUpdate(UpdateView):
             context = {
                 'post': post,
                 'tags': form.cleaned_data['tags'],
-                'title': 'Preview Post:'
+                'title': 'Preview:'
             }
             return render(self.request, "blog/detail_preview.html",
                 context=context)
@@ -281,8 +277,7 @@ class PostUpdate(UpdateView):
         return super(PostUpdate, self).form_invalid(form)
 
     def get_success_url(self):
-        return reverse('blog:post_user_list',
-        args=[self.request.user.user_profile.slug,])
+        return reverse('blog:post_user_list')
 
 
 @method_decorator(login_required, name='dispatch')
@@ -296,11 +291,13 @@ class PostDelete(DeleteView):
     fields = ['title', 'body', 'category', 'tags']
 
     def get_success_url(self):
-        return reverse('blog:post_user_list',
-        args=[self.request.user.user_profile.slug,])
+        return reverse('blog:post_user_list')
 
 
 # Other backend
+@method_decorator(login_required, name='dispatch')
+@method_decorator(group_required(True, 'writer'),
+    name='dispatch')
 class CategoryCreate(MiscCreateMixin):
     """ View to create category
     """
@@ -315,6 +312,9 @@ class CategoryCreate(MiscCreateMixin):
             return reverse('blog:index')
 
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(group_required(True, 'writer'),
+    name='dispatch')
 class TagCreate(MiscCreateMixin):
     """ View to create tag
     """

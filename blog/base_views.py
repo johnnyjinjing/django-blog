@@ -1,11 +1,7 @@
 from django.shortcuts import HttpResponse
 from django.views.generic import ListView
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView
 from django.utils.html import escape
-
-from account.decorators import group_required
 
 class PaginatedListView(ListView):
     """ Paginated ListView
@@ -98,10 +94,6 @@ class PaginatedListView(ListView):
 
         return data
 
-
-@method_decorator(login_required, name='dispatch')
-@method_decorator(group_required(True, 'writer'),
-    name='dispatch')
 class MiscCreateMixin(CreateView):
     """ View used to add misc infomation on the fly
     """
