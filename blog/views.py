@@ -1,17 +1,16 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+from django.utils import timezone
+from django.utils.decorators import method_decorator
 from django.views.generic import DetailView
 from django.views.generic.dates import MonthArchiveView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.urls import reverse
-from django.utils.decorators import method_decorator
-from django.utils import timezone
-from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
 
 import markdown
 
-from .models import Post, Category, Tag
 from .base_views import PaginatedListView, MiscCreateMixin
+from .models import Post, Category, Tag
 from account.decorators import group_required
 from account.models import UserProfile
 from comment.forms import CommentForm
@@ -149,6 +148,7 @@ class PostDetailView(DetailView):
                 'markdown.extensions.codehilite',
                 'markdown.extensions.toc',
             ])
+
         return post
 
     def get_queryset(self):

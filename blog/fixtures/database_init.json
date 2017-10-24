@@ -1,0 +1,18 @@
+[
+    {
+        "model": "sites.site",
+        "pk": 1,
+        "fields": {
+            "domain": "myveryspecialdomain.com",
+            "name": "My Special Site Name"
+        }
+    },
+    {
+        "model": "blog.Category",
+        "pk": 1,
+        "fields": {
+            "name": "Uncategorized",
+            "slug": "Uncategorized"
+        }
+    }
+]
