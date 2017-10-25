@@ -238,3 +238,9 @@ span.field-required{
   /* align inner items horizontally inside the column */
   justify-content: center;
 }
+
+/* search */
+
+span.highlighted {
+    color: red;
+}

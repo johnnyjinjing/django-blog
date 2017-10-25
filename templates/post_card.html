@@ -4,7 +4,7 @@
     <div class="card-body">
         <h2 class="card-title">{{ post.title }}</h2>
         <hr class="my-4">
-        <p class="card-text">{{ post.body | truncatechars_html:500 | safe }}</p>
+        <p class="card-text">{{ post.body | truncatechars_html:300 | safe }}</p>
         <a href="{{ post.get_absolute_url }}" class="btn btn-primary btn-sm color-theme">Read more</a>
     </div>
 
