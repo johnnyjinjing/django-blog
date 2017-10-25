@@ -4,29 +4,23 @@
 {% block content %}
     <div class="card mb-4">
         <h3 class="card-header">My posts</h3>
-        <div class="card-body">
-            <table class="table">
-                <thead>
-                    <tr class="row">
-                        <th class="cell-center col-4 no-border">Title</th>
-                        <th class="cell-center col-2 no-border">Category</th>
-                        <th class="cell-center col-2 no-border">Tags</th>
-                        <th class="cell-center col-2 no-border">Published</th>
-                        <th class="cell-center col-2 no-border">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for post in post_list %}
-                        <tr class="row">
-                            <td class="cell-center col-4"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></td>
-                            <td class="cell-center col-2"><a href="{% url 'blog:category' post.category.slug %}">{{ post.category }}</a></td>
-                            <td class="cell-center col-2">{% for tag in post.tags.all %}<a href="{% url 'blog:tag' tag.slug %}">{{ tag }}</a>{% if not forloop.last %},&nbsp;{% endif %}{% endfor %}</td>
-                            <td class="cell-center col-2">{% if post.published %}<i class="fa fa-check fa-color-green" aria-hidden="true"></i>{% else %}<i class="fa fa-times fa-color-red" aria-hidden="true"></i>{% endif %}</td>
-                            <td class="cell-center col-2"><a href="{% url 'blog:update_post' post.slug %}" class="btn btn-primary" role="button">{% trans "Edit" %}</a></td>
-                        </tr>
-                    {% endfor %}
-              </tbody>
-            </table>
+        <div class="card-body py-1">
+            <div class="row py-2 vcenter">
+                <div class="col-md-4 text-center"><strong>Title</strong></div>
+                <div class="col-md-2 text-center"><strong>Category</strong></div>
+                <div class="col-md-2 text-center"><strong>Tags</strong></div>
+                <div class="col-md-2 text-center"><strong>Published</strong></div>
+                <div class="col-md-2 text-center"><strong>Action</strong></div>
+            </div>
+            {% for post in post_list %}
+            <div class="row py-2 border-row vcenter">
+                <div class="col-md-4 text-center"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></div>
+                <div class="col-md-2 text-center"><a href="{% url 'blog:category' post.category.slug %}">{{ post.category }}</a></div>
+                <div class="col-md-2 text-center">{% for tag in post.tags.all %}<a href="{% url 'blog:tag' tag.slug %}">{{ tag }}</a>{% if not forloop.last %},&nbsp;{% endif %}{% endfor %}</div>
+                <div class="col-md-2 text-center">{% if post.published %}<i class="fa fa-check fa-color-green" aria-hidden="true"></i>{% else %}<i class="fa fa-times fa-color-red" aria-hidden="true"></i>{% endif %}</div>
+                <div class="col-md-2 text-center"><a href="{% url 'blog:update_post' post.slug %}" class="btn btn-primary" role="button">{% trans "Edit" %}</a></div>
+            </div>
+            {% endfor %}
         </div>
     </div>
 

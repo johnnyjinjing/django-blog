@@ -115,6 +115,24 @@
                     </div>
                 </div>
 
+                <!-- Search Widget -->
+                <div class="card my-4">
+                    <div class="card-body">
+                        <form method="get" action="{% url 'haystack_search' %}">
+                            <div class="row">
+                                <div class="col-10">
+                                    <input class="form-control" type="search" name="q" placeholder="Search...">
+                                </div>
+                                <div class="col-2 align-self-center">
+                                    <button class="border-0 mx-0 my-0 px-0 py-0 bgd-white" type="submit"><i class="fa fa-search fa-lg fa-color-gray" aria-hidden="false"></i></button>
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
                 <!-- Table of content -->
                 {% block toc %}
                 {% endblock toc %}

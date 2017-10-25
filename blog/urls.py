@@ -36,4 +36,7 @@ urlpatterns = [
         name='create_category'),
     url(r'^action/create_tag/$', views.TagCreate.as_view(), name='create_tag'),
 
+    # search
+    url(r'^search/', views.CustomSearchView.as_view(),
+        name='search'),
 ]

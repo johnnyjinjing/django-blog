@@ -10,8 +10,9 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 import markdown
 from markdown.extensions.toc import TocExtension
+from haystack.generic_views import SearchView
 
-from .base_views import PaginatedListView, MiscCreateMixin
+from .base_views import PaginatedMixin, MiscCreateMixin, PaginatedListView
 from .models import Post, Category, Tag
 from account.decorators import group_required
 from account.models import UserProfile
@@ -344,3 +345,22 @@ class TagCreate(MiscCreateMixin):
             return self.request.GET.get('next')
         else:
             return reverse('blog:index')
+
+
+# Search view
+class CustomSearchView(PaginatedMixin, SearchView):
+    """ Customized SearchView, disable haystack default pagination
+    """
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(CustomSearchView, self).get_context_data(*args,
+            **kwargs)
+
+        paginator = context.get('paginator')
+        page = context.get('page_obj')
+        is_paginated = context.get('is_paginated')
+        pagination_data = self.pagination_data(paginator, page, is_paginated)
+        print pagination_data
+        context.update(pagination_data)
+
+        return context

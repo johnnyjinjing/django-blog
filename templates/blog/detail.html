@@ -63,9 +63,9 @@
         {% load mptt_tags %}
         <ul class="comment-root list-group mt-4">
             {% recursetree comment_list %}
-                <li class="list-group-item comment-list border-left-0 border-right-0 border-bottom-0 right-tight">
-                    <div class="row right-tight">
-                        <div class="col-md-2 col-lg-1 text-center left-tight">
+                <li class="list-group-item comment-list border-left-0 border-right-0 border-bottom-0 pr-0">
+                    <div class="row pr-0">
+                        <div class="col-md-2 col-lg-1 text-center">
                             {% if node.author.user_profile.avatar %}
                                 <img src="{{ node.author.user_profile.avatar.url }}" class="img-thumbnail user-avartar" alt="image">
                             {% else %}

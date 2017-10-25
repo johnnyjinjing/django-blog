@@ -3,25 +3,11 @@ from django.views.generic import ListView
 from django.views.generic.edit import CreateView
 from django.utils.html import escape
 
-class PaginatedListView(ListView):
-    """ Paginated ListView
+class PaginatedMixin(object):
+    """ Paginated Mixin
     """
     N_PAGE_ONESIDE = 2
     paginate_by = 10
-
-    def get_context_data(self, **kwargs):
-        context = super(PaginatedListView, self).get_context_data(**kwargs)
-
-        # get context provided in ListView
-        paginator = context.get('paginator')
-        page = context.get('page_obj')
-        is_paginated = context.get('is_paginated')
-
-        # get pagination data
-        pagination_data = self.pagination_data(paginator, page, is_paginated)
-
-        context.update(pagination_data)
-        return context
 
     def pagination_data(self, paginator, page, is_paginated):
         """
@@ -93,6 +79,26 @@ class PaginatedListView(ListView):
         }
 
         return data
+
+
+class PaginatedListView(PaginatedMixin, ListView):
+    """ Paginated ListView
+    """
+
+    def get_context_data(self, **kwargs):
+        context = super(PaginatedListView, self).get_context_data(**kwargs)
+
+        # get context provided in ListView
+        paginator = context.get('paginator')
+        page = context.get('page_obj')
+        is_paginated = context.get('is_paginated')
+
+        # get pagination data
+        pagination_data = self.pagination_data(paginator, page, is_paginated)
+
+        context.update(pagination_data)
+        return context
+
 
 class MiscCreateMixin(CreateView):
     """ View used to add misc infomation on the fly

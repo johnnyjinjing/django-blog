@@ -17,9 +17,9 @@
 }
 
 /* general */
-.float-right {
+/*.float-right {
     float: right;
-}
+}*/
 
 h1 { font-size: 2em; }
 h2 { font-size: 1.5em; }
@@ -27,6 +27,10 @@ h3 { font-size: 1.17em; }
 h4 { font-size: 1.12em; }
 h5 { font-size: .83em; }
 h6 { font-size: .75em; }
+
+.bgd-white {
+    background-color: #fff
+}
 
 /* button */
 .btn-primary {
@@ -161,19 +165,6 @@ img.user-avartar {
     margin: 0.1rem;
 }
 
-.no-horizonal-padding {
-    padding-left: 0px;
-    padding-right: 0px;
-}
-
-.right-tight {
-    padding-right: 0px;
-}
-
-.left-tight {
-    padding-right: 0px;
-}
-
 /* font-awesome */
 .fa-theme {
     color: lightgray;
@@ -191,6 +182,10 @@ img.user-avartar {
     color: red;
 }
 
+.fa-color-gray {
+    color: gray;
+}
+
 /* form */
 span.field-required{
     font-weight: bold;
@@ -200,21 +195,11 @@ span.field-required{
     display: none;
 }
 
-/* table */
-table tbody tr td.cell-center, table thead tr th.cell-center {
-    text-align: center;
-    vertical-align: middle;
-}
-
-table thead th.no-border {
-  border: none;
-  border-bottom: none;
-}
-
 /* pagination */
 .page-item .page-link {
     color: var(--theme);
 }
+
 .page-item.active .page-link {
   color: #fff;
   background-color: var(--theme);
@@ -226,7 +211,7 @@ table thead th.no-border {
     padding-left: 1.5em;
 }
 
-*[id]:before {
+*[id]:before:not(#comment-form):before {
   display: block;
   content: " ";
   margin-top: -64px;
@@ -234,3 +219,22 @@ table thead th.no-border {
   visibility: hidden;
 }
 
+.border-row {
+    border-top: 1px solid;
+    border-top-color: rgba(0, 0, 0, 0.125);
+}
+
+
+/* vertical align */
+.vcenter {
+  display: flex;
+  flex-direction: row;
+}
+
+.vcenter > [class^="col-"],
+.vcenter > [class*=" col-"] {
+  display: flex;
+  align-items: center;
+  /* align inner items horizontally inside the column */
+  justify-content: center;
+}

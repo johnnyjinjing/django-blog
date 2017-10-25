@@ -1,15 +1,18 @@
 # secret settings
-django-blog/setting_secret.py
+setting_secret.py
 
 # database
 db.sqlite3
-*my.cnf
+my.cnf
 
 # media
 media/
 
 # Misc
 .DS_Store
+
+# whoosh
+whoosh_index/
 
 ### Python
 

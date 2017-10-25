@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^comments/', include('comment.urls')),
     url(r'^accounts/', include('account.urls')),
     url(r'^accounts/', include('registration.backends.default.urls')),
+    url(r'^search/', include('haystack.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
