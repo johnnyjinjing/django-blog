@@ -229,7 +229,7 @@ class PostCreate(CreateView):
             context = {
                 'post': post,
                 'tags': form.cleaned_data['tags'],
-                'title': 'Preview:'
+                'title': 'Preview:',
             }
             return render(self.request, 'blog/detail_preview.html',
                 context=context)
@@ -278,10 +278,11 @@ class PostUpdate(UpdateView):
             if len(md.toc) > 35:
                 post.toc = md.toc
 
+            comment_list = self.object.comment_set.all()
             context = {
                 'post': post,
                 'tags': form.cleaned_data['tags'],
-                'title': 'Preview:'
+                'title': 'Preview:',
             }
             return render(self.request, "blog/detail_preview.html",
                 context=context)

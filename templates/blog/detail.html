@@ -3,6 +3,10 @@
 {% load blog_extras %}
 {% block content %}
 
+{% if title %}
+    <h2 class="mb-4">{{ title }}</h2>
+{% endif %}
+
 <div class="card mb-4">
     <div class="card-body">
         <!-- title -->
@@ -14,7 +18,7 @@
             <li class="list-inline-item"><i class="fa fa-comment-o" aria-hidden="true"></i><a href="#comment"> {{ post.comment_set.count }} {% if post.comment_set.count == 1%}comment{% else %}comments{% endif %} </a></li>
         </ul>
         <!-- post body -->
-        <p class="card-text" id="post-body">{{ post.body | safe }}</p>
+        <div class="card-text" id="post-body">{{ post.body | safe }}</div>
     </div>
     <!-- post misc -->
     <div class="card-footer text-muted small">
@@ -26,7 +30,7 @@
                 <i class="fa fa-calendar-o" aria-hidden="true"></i><a href="{% url 'blog:archive' post.created_time|date:'Y' post.created_time|date:'m' %}"> {{ post.created_time | date:"Y-m-d" }}</a>
             </div>
             <div class="col text-right">
-                <i class="fa fa-comment-o" aria-hidden="true"></i><a href="{{ post.get_absolute_url }}#comment"> {{ post.comment_set.count }} {% if post.comment_set.count == 1%}comment{% else %}comments{% endif %} </a>
+                <i class="fa fa-comment-o" aria-hidden="true"></i><a href="{{ post.get_absolute_url }}#comment"> {{ post.comment_set.count }} {% if post.comment_set.count == 1%}comment{% else %}comments{% endif %}</a>
             </div>
         </div>
         <hr class="my-1">
@@ -46,11 +50,11 @@
 
 <!-- Comment -->
 <div class="card mb-4" id="comment">
-    <h3 class="card-header">Comments ({{ post.comment_set.count }})</h3>
+    <h2 class="card-header">Comments ({{ post.comment_set.count }})</h2>
     <div class="card-body">
          <!-- if user is in 'reader' group, display the comment form -->
         {% if request.user|has_group:"reader" %}
-            <form id="comment_form" novalidate method="post" action="{% url 'comment' post.slug %}">
+            <form class="comment_form" novalidate method="post" action="{% url 'comment' post.slug %}">
                 {% csrf_token %}
                 {% include 'base_form.html' with form=form %}
                 <div class=text-right><button type="submit" class="btn btn-primary">Submit</button></div>
@@ -80,12 +84,12 @@
                             <!-- reply form -->
                             <div class="comment-form-reply">
                                 {% if request.user|has_group:"reader" %}
-                                    <a href="#" class="button-hide-form"><i class="fa fa-times fa-theme float-right" aria-hidden="true"></i></a>
-                                    <form id="comment_form" novalidate method="post" action="{% url 'comment' post.slug %}">
+                                    <a href="#" class="button-hide-form"><i class="fa fa-times fa-theme float-right text-bottom" aria-hidden="true"></i></a>
+                                    <form class="comment_form" novalidate method="post" action="{% url 'comment' post.slug %}">
                                         {% csrf_token %}
                                         {% include 'base_form.html' with form=form %}
                                         <div class=text-right><button type="submit" class="btn btn-primary">Reply</button></div>
-                                        <input type="hidden" name="parent" id="parent_id" value="{{ node.id }}" />
+                                        <input type="hidden" name="parent" value="{{ node.id }}" />
                                     </form>
                                 {% else %}
                                     <p class="text-widget">You are not logged in. <a class="color-theme-font" href="{% url 'auth_login' %}?next={{ request.path }}">Log in</a> to reply.</p>
@@ -110,11 +114,43 @@
 
 {% block toc %}
 {% if post.toc  %}
-    <h2 class="mb-2">Table of Contents</h2>
-    {{ post.toc | safe }}
+    <div class="sidebar-toc sticky">
+        <h2 class="mb-2" id="toc-title">Table of Contents</h2>
+        {{ post.toc | safe }}
+    </div>
 {% endif %}
 {% endblock toc %}
 
 {% block javascript %}
-<script src="{% static 'js/post_comment.js' %}"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+
+    /* toc */
+    ul = $('.toc').find('ul');
+    ul.addClass("nav nav-pills flex-column");
+    ul.find('a').addClass("nav-link");
+    $('body').scrollspy({
+        target: '.toc',
+        offset: 50
+    });
+
+    /* reverse root-level comments */
+    ul = $('ul.comment-root');
+    ul.children().each(function(i,li){ul.prepend(li)});
+    ul.css("visibility", "visible");
+
+    /* toggle reply form */
+    $(".comment-reply").bind("click", function(e){
+        e.preventDefault();
+        $(".comment-form-reply").hide();
+        $(this).parent().siblings(".comment-form-reply").show();
+    });
+
+    $(".button-hide-form").bind("click", function(e){
+        e.preventDefault();
+        $(this).parent().hide();
+    });
+
+});
+</script>
 {% endblock %}

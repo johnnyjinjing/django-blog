@@ -47,7 +47,7 @@
 
 <!-- Comment -->
 <div class="card mb-4" id="comment">
-    <h3 class="card-header">Comments</h3>
+    <h2 class="card-header">Comments (0)</h2>
     <div class="card-body">
     </div>
 </div>
@@ -55,7 +55,45 @@
 
 {% block toc %}
 {% if post.toc  %}
-    <h2 class="mb-2">Table of Contents</h2>
-    {{ post.toc | safe }}
+    <div class="sidebar-toc sticky">
+        <h2 class="mb-2" id="toc-title">Table of Contents</h2>
+        {{ post.toc | safe }}
+    </div>
 {% endif %}
 {% endblock toc %}
+
+
+{% block javascript %}
+<script type="text/javascript">
+$(document).ready(function(){
+
+    /* toc */
+    ul = $('.toc').find('ul');
+    ul.addClass("nav nav-pills flex-column");
+    ul.find('a').addClass("nav-link");
+    $('body').scrollspy({
+        target: '.toc',
+        offset: 50
+    });
+
+    /* reverse root-level comments */
+    ul = $('ul.comment-root');
+    ul.children().each(function(i,li){ul.prepend(li)});
+    ul.css("visibility", "visible");
+
+    /* toggle reply form */
+    $(".comment-reply").bind("click", function(e){
+        e.preventDefault();
+        $(".comment-form-reply").hide();
+        $(this).parent().siblings(".comment-form-reply").show();
+    });
+
+    $(".button-hide-form").bind("click", function(e){
+        e.preventDefault();
+        $(this).parent().hide();
+    });
+
+});
+</script>
+
+{% endblock %}

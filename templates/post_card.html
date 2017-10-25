@@ -2,10 +2,9 @@
 
     <!-- Post title and body -->
     <div class="card-body">
-        <h2 class="card-title">{{ post.title }}</h2>
+        <h2 class="card-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
         <hr class="my-4">
         <p class="card-text">{{ post.body | truncatechars_html:300 | safe }}</p>
-        <a href="{{ post.get_absolute_url }}" class="btn btn-primary btn-sm color-theme">Read more</a>
     </div>
 
     <!-- Post misc -->

@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="card mb-4">
-    <h3 class="card-header">Create Tag</h3>
+    <h2 class="card-header">Create Tag</h2>
     <div class="card-body">
         <form action="./{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}" method="post" novalidate>
             {% csrf_token %}
