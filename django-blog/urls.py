@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
 
+from blog.feeds import AllPostsRssFeed
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include('blog.urls')),
@@ -25,6 +27,7 @@ urlpatterns = [
     url(r'^accounts/', include('account.urls')),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^search/', include('haystack.urls')),
+    url(r'^all/rss/$', AllPostsRssFeed(), name='rss')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -143,8 +143,14 @@
 
     <!-- Footer -->
     <footer class="color-theme">
-        <div class="container">
-            <p class="text-center text-white">Copyright &copy; djangoblog.com 2017</p>
+        <div class="container-fluid">
+            <div class="row vcenter">
+                <div class="col-md-4 offset-md-4 hcenter-text">
+                    <p class="text-white">Copyright &copy; djangoblog.com 2017</p>
+                </div>
+                <div class="col-md-4">
+                    <a href="{% url 'rss' %}"><span class="fa-stack fa-lg" data-toggle="tooltip" title="Subscribe me!"><i class="fa fa-circle fa-stack-2x fa-foot-icon"></i><i class="fa fa-rss fa-stack-1x"></i></span></a>
+                </div>
         </div>
     </footer>
 
@@ -152,6 +158,11 @@
     <script src="{% static 'js/jquery/jquery.min.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
     {% block javascript %}{% endblock javascript %}
 </body>
 

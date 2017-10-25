@@ -17,9 +17,6 @@
 }
 
 /* general */
-/*.float-right {
-    float: right;
-}*/
 
 h1 { font-size: 2em; }
 h2 { font-size: 1.5em; }
@@ -186,6 +183,10 @@ img.user-avartar {
     color: gray;
 }
 
+.fa-foot-icon {
+    color: #dcdcdc;
+}
+
 /* form */
 span.field-required{
     font-weight: bold;
@@ -225,7 +226,7 @@ span.field-required{
 }
 
 
-/* vertical align */
+/* flex align */
 .vcenter {
   display: flex;
   flex-direction: row;
@@ -235,12 +236,26 @@ span.field-required{
 .vcenter > [class*=" col-"] {
   display: flex;
   align-items: center;
-  /* align inner items horizontally inside the column */
-  justify-content: center;
+}
+
+.hvcenter {
+    display: flex;
+    flex-direction: row;
+}
+
+.hvcenter > [class^="col-"],
+.hvcenter > [class*=" col-"] {
+    display: flex;
+    align-items: center;
+    /* align inner items horizontally inside the column */
+    justify-content: center;
+}
+
+.hcenter-text {
+    justify-content: center;
 }
 
 /* search */
-
 span.highlighted {
     color: red;
 }
