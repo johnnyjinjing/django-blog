@@ -72,6 +72,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'blog.context_processors.global_settings'
             ],
         },
     },
@@ -119,7 +120,7 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
-USE_I18N = True
+USE_I18N = False
 
 USE_L10N = True
 
@@ -128,17 +129,20 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-
 STATIC_URL = '/static/'
-
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR,'static'),
 )
 
+# Media
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# site
 SITE_ID = 1
 
-# i18n
-USE_I18N = False
+# User permission
+DEFAULT_GROUP_NAME = 'reader'
 
 # registration settings
 REGISTRATION_OPEN = True
@@ -147,13 +151,6 @@ LOGIN_URL = '/accounts/login/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 REGISTRATION_EMAIL_HTML = False
-
-# Media
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# User permission
-DEFAULT_GROUP_NAME = 'reader'
 
 # haystack
 HAYSTACK_CONNECTIONS = {
@@ -164,3 +161,11 @@ HAYSTACK_CONNECTIONS = {
 }
 HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+# settings
+SITE_URL='myblog.com'
+SITE_NAME='Blog'
+SITE_TITLE='My Blog'
+SITE_YEAR='2017'
+GITHUB_URL='https://github.com'
+PORTFOLIO_URL='http://portfolio.myblog.com'

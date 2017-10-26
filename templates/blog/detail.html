@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load blog_extras %}
+
+{% block title %}{{ post.title }} | {{ SITE_TITLE }}{% endblock %}
+
 {% block content %}
 
 {% if title %}
