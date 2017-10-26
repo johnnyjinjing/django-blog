@@ -25,24 +25,26 @@
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top color-theme">
-        <a class="navbar-brand" href="{% url 'blog:index' %}">{{ SITE_NAME }}</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'blog:index' %}">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href={{ PORTFOLIO_URL }}>Portfolio</a>
-                </li>
-            </ul>
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'blog:index' %}">{{ SITE_NAME }}</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'blog:index' %}">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href={{ PORTFOLIO_URL }}>Portfolio</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
     <!-- Page Content -->
-    <div class="container">
+    <div class="container container-main my-4">
         <div class="row">
 
             <!-- Post Content Column -->
@@ -143,12 +145,12 @@
 
     <!-- Footer -->
     <footer class="color-theme">
-        <div class="container-fluid">
+        <div class="container">
             <div class="row vcenter">
-                <div class="col-md-4 offset-md-4 hcenter-text">
+                <div class="col-lg-4 offset-lg-4 col-sm-8 hcenter-text">
                     <p class="text-white">Copyright &copy; {{SITE_YEAR}} {{ SITE_URL }} </p>
                 </div>
-                <div class="col-md-4">
+                <div class="col-lg-4 col-sm-4 hcenter-text">
                     <a href="{% url 'rss' %}"><span class="fa-stack fa-lg" data-toggle="tooltip" title="Subscribe me!"><i class="fa fa-circle fa-stack-2x fa-foot-icon"></i><i class="fa fa-rss fa-stack-1x"></i></span></a>
                     <a href={{ GITHUB_URL }}><span class="fa-stack fa-lg" data-toggle="tooltip" title="View my Github!"><i class="fa fa-circle fa-stack-2x fa-foot-icon"></i><i class="fa fa-github fa-stack-1x"></i></span></a>
                 </div>

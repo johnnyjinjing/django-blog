@@ -18,6 +18,14 @@
 
 /* general */
 
+body {
+    background-color: #F5F5F5;
+}
+
+.container-main {
+    background-color: white;
+}
+
 h1 { font-size: 2em; }
 h2 { font-size: 1.5em; }
 h3 { font-size: 1.17em; }
@@ -67,7 +75,7 @@ html {
 }
 
 body {
-    margin-bottom: 60px;
+    padding-bottom: 60px;
 }
 
 footer {
@@ -76,6 +84,15 @@ footer {
     bottom: 0;
     height: 60px;
     width: 100%;
+}
+
+@media screen and (max-width: 575px) {
+   footer {
+      height: 120px;
+   }
+   body {
+    padding-bottom: 120px;
+}
 }
 
 footer p {
