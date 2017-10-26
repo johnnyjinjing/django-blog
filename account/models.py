@@ -1,3 +1,5 @@
+import os
+
 from django.db import models
 from django.dispatch import receiver
 from django.contrib.auth.models import User, Group
@@ -20,7 +22,7 @@ class UserProfile(models.Model):
 
     # Additional attributes
     avatar = models.ImageField(
-        upload_to=UploadToPathAndRename('profile_avatars'),
+        upload_to=UploadToPathAndRename(settings.AVATAR_DIR),
         storage=OverwriteStorage(), null=True,blank=True)
 
     slug = models.SlugField(max_length=100, unique=True)
@@ -29,7 +31,10 @@ class UserProfile(models.Model):
         self.slug = slugify(self.user.username)
         super(UserProfile, self).save(*args, **kwargs)
         if self.avatar:
-            create_avatar(self.avatar.path)
+            fname = create_avatar(self.avatar.path)
+            self.avatar = os.path.join(settings.AVATAR_DIR, fname)
+        super(UserProfile, self).save(*args, **kwargs)
+
 
 
 @receiver(user_activated)

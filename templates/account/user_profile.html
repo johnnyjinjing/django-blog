@@ -12,7 +12,7 @@
             <p class="card-text"><b>Username:</b> {{ user_profile.user.username}}</p>
             <p class="card-text"><b>Email:</b> {{ user_profile.user.email}}</p>
             <p class="card-text"><b>Password:</b> ********  <a href="{% url 'auth_password_change' %}" class="btn btn-primary" role="button" aria-pressed="true">{% trans "Change" %}</a></p>
-            <p class="card-text"><b>Avatar:</b> {% if user_profile.avatar %}<img class="img-thumbnail user-avartar" src="{{ user_profile.avatar.url }}" alt="image">{% else %}<img src="{% static 'images/default_avatar.png' %}" class="img-thumbnail user-avartar" alt="image">{% endif %} <a href="{% url 'upload_avatar' %}" class="btn btn-primary" role="button">{% trans "Update" %}</a></p>
+            <p class="card-text"><b>Avatar:</b> {% if user_profile.avatar %}<img class="img-thumbnail user-avartar user-profile-avatar" src="{{ user_profile.avatar.url }}" alt="image">{% else %}<img src="{% static 'images/default_avatar.png' %}" class="img-thumbnail user-avartar user-profile-avatar" alt="image">{% endif %} <a href="{% url 'upload_avatar' %}" class="btn btn-primary" role="button">{% trans "Update" %}</a></p>
 
         </div>
     </div>

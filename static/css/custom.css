@@ -162,6 +162,11 @@ img.user-avartar {
     margin: 0.1rem;
 }
 
+img.user-profile-avatar {
+    max-height: 100px;
+    max-width: 100px;
+}
+
 /* font-awesome */
 .fa-theme {
     color: lightgray;

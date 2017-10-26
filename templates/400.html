@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load blog_extras %}
+
+{% block title %}400 Bad Request | {{ SITE_TITLE }}{% endblock %}
+
+{% block content %}
+
+<div class="card mb-4">
+    <h2 class="card-header">Error</h2>
+    <div class="card-body">
+        <h1 class="card-title">400 Bad Request</h1>
+    </div>
+</div>
+{% endblock content %}

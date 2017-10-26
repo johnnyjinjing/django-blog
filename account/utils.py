@@ -68,6 +68,10 @@ def create_avatar(file_path):
     avatar = Image.new(mode='RGBA', size=size, color=(255,255,255,0))
     avatar.paste(img, (max((size[0] - img.size[0]) / 2, 0),
         max((size[1] - img.size[1]) / 2, 0)))
-    avatar.save(file_path,'PNG')
 
-    return True
+    path, base = os.path.split(file_path)
+    fname = '{}.{}'.format(os.path.splitext(base)[0], "png")
+    os.remove(file_path)
+    avatar.save(os.path.join(path, fname),'PNG')
+
+    return fname
