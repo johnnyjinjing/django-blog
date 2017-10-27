@@ -26,12 +26,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-
-CSRF_COOKIE_SECURE = True
-
-SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
 
 
 # Application definition
@@ -170,8 +167,6 @@ HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 # settings
-SITE_URL='myblog.com'
-SITE_NAME='Blog'
 SITE_TITLE='My Blog'
 SITE_YEAR='2017'
 GITHUB_URL='https://github.com'

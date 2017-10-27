@@ -1,5 +1,5 @@
 # secret settings
-setting_secret.py
+settings_secret.py
 
 # database
 db.sqlite3

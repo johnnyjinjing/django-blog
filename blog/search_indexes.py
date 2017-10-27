@@ -3,7 +3,6 @@ from .models import Post
 
 
 class PostIndex(indexes.SearchIndex, indexes.Indexable):
-    # text = indexes.CharField(document=True, use_template=True)
     text = indexes.EdgeNgramField(document=True, use_template=True)
     published = indexes.BooleanField(model_attr='published')
 
