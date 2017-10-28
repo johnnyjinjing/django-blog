@@ -56,7 +56,7 @@
     <h2 class="card-header">Comments ({{ post.comment_set.count }})</h2>
     <div class="card-body">
          <!-- if user is in 'reader' group, display the comment form -->
-        {% if request.user|has_group:"reader" %}
+        {% if request.user|has_group:"reader" or request.user.is_superuser %}
             <form class="comment_form" novalidate method="post" action="{% url 'comment' post.slug %}">
                 {% csrf_token %}
                 {% include 'base_form.html' with form=form %}
@@ -86,7 +86,7 @@
 
                             <!-- reply form -->
                             <div class="comment-form-reply">
-                                {% if request.user|has_group:"reader" %}
+                                {% if request.user|has_group:"reader" or request.user.is_superuser %}
                                     <a href="#" class="button-hide-form"><i class="fa fa-times fa-theme float-right text-bottom" aria-hidden="true"></i></a>
                                     <form class="comment_form" novalidate method="post" action="{% url 'comment' post.slug %}">
                                         {% csrf_token %}

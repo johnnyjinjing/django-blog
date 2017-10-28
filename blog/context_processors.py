@@ -8,5 +8,4 @@ def global_settings(request):
         'SITE_TITLE': settings.SITE_TITLE,
         'SITE_YEAR': settings.SITE_YEAR,
         'GITHUB_URL': settings.GITHUB_URL,
-        'PORTFOLIO_URL': settings.PORTFOLIO_URL,
     }

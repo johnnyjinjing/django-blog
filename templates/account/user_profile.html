@@ -16,7 +16,7 @@
 
         </div>
     </div>
-    {% if request.user|has_group:"writer" %}
+    {% if request.user|has_group:"writer" or request.user.is_superuser %}
         <a href="{% url 'blog:create_blog' %}" class="btn btn-primary" role="button">{% trans "Write a new post" %}</a>
         <a href="{% url 'blog:post_user_list' %}" class="btn btn-primary" role="button">{% trans "View my posts" %}</a>
     {% endif %}

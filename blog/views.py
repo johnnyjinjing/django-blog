@@ -361,7 +361,6 @@ class CustomSearchView(PaginatedMixin, SearchView):
         page = context.get('page_obj')
         is_paginated = context.get('is_paginated')
         pagination_data = self.pagination_data(paginator, page, is_paginated)
-        print pagination_data
         context.update(pagination_data)
 
         return context

@@ -6,7 +6,7 @@ def group_required(raise_exception=False, *group_names):
     """
     def in_groups(u):
         if u.is_authenticated():
-            if bool(u.groups.filter(name__in=group_names)) | u.is_superuser:
+            if bool(u.groups.filter(name__in=group_names)) or u.is_superuser:
                 return True
         if raise_exception:
             raise PermissionDenied

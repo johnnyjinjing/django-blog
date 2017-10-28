@@ -1,19 +1,12 @@
 /* theme color */
 :root {
-    --theme: #289CCB;
-    --theme-analog-1: #2866CB;
-    --theme-analog-2: #28CBC4;
-    --theme-analog-3: #75C4E4;
-    --theme-analog-4: #7A7A7A;
-    --theme-analog-5: #000000;
-    --theme-complementary: #CB5728;
-    --theme-splitcomplementary-1: #CB284B;
-    --theme-splitcomplementary-2: #CBA928;
+    --theme-primary: #2B1B17;
+    --theme-secondary: #289CCB;
 }
 
 /* background */
 .color-theme {
-    background-color: var(--theme);
+    background-color: var(--theme-primary);
 }
 
 /* general */
@@ -39,18 +32,18 @@ h6 { font-size: .75em; }
 
 /* button */
 .btn-primary {
-    background-color: var(--theme);
-    border-color: var(--theme);
+    background-color: var(--theme-secondary);
+    border-color: var(--theme-secondary);
 }
 
 .btn-primary:hover {
-    background-color: var(--theme);
-    border-color: var(--theme);
+    background-color: var(--theme-secondary);
+    border-color: var(--theme-secondary);
 }
 
 /* font color */
 .color-theme-font {
-    color: var(--theme);
+    color: var(--theme-secondary);
 }
 
 /* link color */
@@ -60,7 +53,7 @@ a {
 
 a:hover {
     text-decoration: none;
-    color: var(--theme);
+    color: var(--theme-secondary);
 }
 
 /* fixed navbar */
@@ -190,7 +183,7 @@ img.user-profile-avatar {
 }
 
 .fa-theme:hover {
-    color: var(--theme);
+    color: var(--theme-secondary);
 }
 
 .fa-color-green {
@@ -220,13 +213,13 @@ span.field-required{
 
 /* pagination */
 .page-item .page-link {
-    color: var(--theme);
+    color: var(--theme-secondary);
 }
 
 .page-item.active .page-link {
   color: #fff;
-  background-color: var(--theme);
-  border-color: var(--theme);
+  background-color: var(--theme-secondary);
+  border-color: var(--theme-secondary);
 }
 
 /* toc */
@@ -256,7 +249,7 @@ span.field-required{
 }
 
 .sidebar-toc .nav-link.active {
-    background-color: var(--theme);
+    background-color: var(--theme-primary);
 }
 
 /* flex align */
