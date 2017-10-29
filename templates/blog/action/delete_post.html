@@ -11,7 +11,7 @@
             {% csrf_token %}
             {% include 'base_form.html' with form=form %}
             <p>Are you sure you want to delete the post with title "{{ object }}"?</p>
-            <button type="submit" class="btn btn-danger" name ="delete" value={% trans 'Delete' %} style="float: right;">{% trans 'Delete' %}</button>
+            <button type="submit" class="btn btn-danger float-right" name ="delete" value={% trans 'Delete' %}">{% trans 'Delete' %}</button>
         </form>
     </div>
 </div>

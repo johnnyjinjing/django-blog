@@ -10,7 +10,7 @@
         <form method="post" novalidate action='.' class="mb-4" enctype="multipart/form-data">
             {% csrf_token %}
             {% include 'base_form.html' with form=form %}
-            <button type="submit" class="btn btn-primary" value={% trans 'Upload' %}>{% trans 'Upload' %}</button>
+            <button type="submit" class="btn btn-primary float-right" value={% trans 'Upload' %}>{% trans 'Upload' %}</button>
         </form>
     </div>
 </div>

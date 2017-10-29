@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.views.generic import TemplateView
 
 from . import views
 
@@ -39,4 +40,11 @@ urlpatterns = [
     # search
     url(r'^search/', views.CustomSearchView.as_view(),
         name='search'),
+
+    # contact
+    url(r'^contact/$', views.ContactFormView.as_view(),
+        name='contact'),
+    url(r'^contact/thanks/$',
+        TemplateView.as_view(template_name="blog/thanks.html"),
+        name='thanks'),
 ]

@@ -10,7 +10,7 @@
         <form action="./{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}" method="post" novalidate>
             {% csrf_token %}
             {% include 'base_form.html' with form=form %}
-            <button type="submit" class="btn btn-primary" value={% trans 'Create' %}>{% trans 'Create' %}</button>
+            <button type="submit" class="btn btn-primary float-right" value={% trans 'Create' %}>{% trans 'Create' %}</button>
         </form>
     </div>
 </div>

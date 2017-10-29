@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}Thanks | {{ SITE_TITLE }}{% endblock %}
+
+{% block content %}
+<div class="card mb-4">
+    <h2 class="card-header">Thanks</h2>
+    <div class="card-body">
+        <p>{% trans "You message has been sent." %}</p>
+        <p>Click <a class="color-theme-font" href="{% url 'blog:index' %}">here</a> to visit the home page.</p>
+    </div>
+</div>
+{% endblock %}

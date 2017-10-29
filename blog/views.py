@@ -1,12 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView
 from django.views.generic.dates import MonthArchiveView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import FormView
 
 import markdown
 from markdown.extensions.toc import TocExtension
@@ -14,6 +15,7 @@ from haystack.generic_views import SearchView
 
 from .base_views import PaginatedMixin, MiscCreateMixin, PaginatedListView
 from .models import Post, Category, Tag
+from .forms import ContactForm
 from account.decorators import group_required
 from account.models import UserProfile
 from comment.forms import CommentForm
@@ -364,3 +366,15 @@ class CustomSearchView(PaginatedMixin, SearchView):
         context.update(pagination_data)
 
         return context
+
+# Contact View
+class ContactFormView(FormView):
+    """ Contact View
+    """
+    template_name = 'blog/contact.html'
+    form_class = ContactForm
+    success_url = reverse_lazy('blog:thanks')
+
+    def form_valid(self, form):
+        form.send_email()
+        return super(ContactFormView, self).form_valid(form)
