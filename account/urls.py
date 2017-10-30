@@ -14,7 +14,12 @@ urlpatterns = [
         name='user_profile'),
 
     # upload avatar
-    url(r'^profile/action/upload_avatar/$', views.upload_avatar, name='upload_avatar'),
+    url(r'^profile/action/upload_avatar/$', views.upload_avatar,
+        name='upload_avatar'),
+
+    # change display name
+    url(r'^profile/action/display_name_change/$', views.display_name_change,
+        name='display_name_change'),
 
     # use unique email form
     url(r'^register/$',

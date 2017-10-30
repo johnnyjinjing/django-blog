@@ -127,7 +127,11 @@ class PostAuthorListView(PaginatedListView):
 
     def get_context_data(self, **kwargs):
         context = super(PostAuthorListView, self).get_context_data(**kwargs)
-        title_string = 'Posts by Author: ' + self.author.username
+        if self.author.user_profile.display_name:
+            title_string = 'Posts by Author: ' \
+                + self.author.user_profile.display_name
+        else:
+            title_string = 'Posts by Author: ' + self.author.username
         context.update({
             'title': title_string
         })
@@ -199,7 +203,7 @@ class PostUserListView(PaginatedListView):
 class PostCreate(CreateView):
     """ View to create post
     """
-    template_name = 'blog/action/create_post.html'
+    template_name = 'blog/action/post_create.html'
     model = Post
     fields = ['title', 'body', 'category', 'tags']
 
@@ -253,7 +257,7 @@ class PostCreate(CreateView):
 class PostUpdate(UpdateView):
     """ View to update post
     """
-    template_name = 'blog/action/update_post.html'
+    template_name = 'blog/action/post_update.html'
     model = Post
     fields = ['title', 'body', 'category', 'tags']
 
@@ -265,7 +269,7 @@ class PostUpdate(UpdateView):
             form.instance.published = False
             form.save()
         elif 'delete' in self.request.POST:
-            return redirect(reverse('blog:delete_post',
+            return redirect(reverse('blog:post_delete',
                 args=[self.kwargs.get('slug'),]))
         elif 'preview' in self.request.POST:
             post = form.save(commit=False)
@@ -293,7 +297,7 @@ class PostUpdate(UpdateView):
 
     def form_invalid(self, form):
         if "delete" in self.request.POST:
-            return redirect(reverse('blog:delete_post',
+            return redirect(reverse('blog:post_delete',
                 args=[self.kwargs.get('slug'),]))
         return super(PostUpdate, self).form_invalid(form)
 
@@ -307,7 +311,7 @@ class PostUpdate(UpdateView):
 class PostDelete(DeleteView):
     """ View to delete post
     """
-    template_name = 'blog/action/delete_post.html'
+    template_name = 'blog/action/post_delete.html'
     model = Post
     fields = ['title', 'body', 'category', 'tags']
 
@@ -322,7 +326,7 @@ class PostDelete(DeleteView):
 class CategoryCreate(MiscCreateMixin):
     """ View to create category
     """
-    template_name = 'blog/action/create_category.html'
+    template_name = 'blog/action/category_create.html'
     model = Category
     fields = ['name']
 
@@ -339,7 +343,7 @@ class CategoryCreate(MiscCreateMixin):
 class TagCreate(MiscCreateMixin):
     """ View to create tag
     """
-    template_name = 'blog/action/create_tag.html'
+    template_name = 'blog/action/tag_create.html'
     model = Tag
     fields = ['name']
 

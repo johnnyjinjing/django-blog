@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}Change name | {{ SITE_TITLE }}{% endblock %}
+
+{% block content %}
+<div class="card mb-4">
+    <h2 class="card-header">Change Name</h2>
+    <div class="card-body">
+        <form method="post" novalidate action='.' class="mb-4">
+            {% csrf_token %}
+            {% include 'base_form.html' with form=form %}
+            <button type="submit" class="btn btn-primary float-right" value={% trans 'Submit' %}>{% trans 'Submit' %}</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

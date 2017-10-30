@@ -19,11 +19,13 @@ class UserProfile(models.Model):
 
     # Links UserProfile to a User model instance.
     user = models.OneToOneField(User, related_name='user_profile')
+    display_name = models.CharField(max_length=20, unique=True, null=True,
+        blank=True)
 
     # Additional attributes
     avatar = models.ImageField(
         upload_to=UploadToPathAndRename(settings.AVATAR_DIR),
-        storage=OverwriteStorage(), null=True,blank=True)
+        storage=OverwriteStorage(), null=True, blank=True)
 
     slug = models.SlugField(max_length=100, unique=True)
 

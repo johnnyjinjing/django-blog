@@ -39,17 +39,19 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item {% if request.resolver_match.url_name == 'index' %}active{% endif %}">
                         <a class="nav-link" href="{% url 'blog:index' %}">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ PORTFOLIO_URL }}">Portfolio</span></a>
+                    </li>
+                    <li class="nav-item {% if request.resolver_match.url_name == 'contact' %}active{% endif %}"">
                         <a class="nav-link" href="{% url 'blog:contact' %}">Contact</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-
     <!-- Page Content -->
     <div class="container container-main my-4">
         <div class="row">
@@ -161,6 +163,7 @@
                     <a href="{% url 'rss' %}"><span class="fa-stack fa-lg" data-toggle="tooltip" title="Subscribe me!"><i class="fa fa-circle fa-stack-2x fa-foot-icon"></i><i class="fa fa-rss fa-stack-1x"></i></span></a>
                     <a href={{ GITHUB_URL }}><span class="fa-stack fa-lg" data-toggle="tooltip" title="View my Github!"><i class="fa fa-circle fa-stack-2x fa-foot-icon"></i><i class="fa fa-github fa-stack-1x"></i></span></a>
                 </div>
+            </div>
         </div>
     </footer>
 

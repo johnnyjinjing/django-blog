@@ -24,18 +24,18 @@ urlpatterns = [
     # post backend views
     url(r'^myposts/$', views.PostUserListView.as_view(),
         name='post_user_list'),
-    url(r'^action/create_post/$', views.PostCreate.as_view(),
-        name='create_blog'),
+    url(r'^action/post_create/$', views.PostCreate.as_view(),
+        name='post_create'),
     url(r'^post/(?P<slug>[\w\-]+)/edit/$', views.PostUpdate.as_view(),
-        name='update_post'),
+        name='post_update'),
     url(r'^post/(?P<slug>[\w\-]+)/delete/$', views.PostDelete.as_view(),
-        name='delete_post'),
+        name='post_delete'),
 
 
     # other backend
-    url(r'^action/create_category/$', views.CategoryCreate.as_view(),
-        name='create_category'),
-    url(r'^action/create_tag/$', views.TagCreate.as_view(), name='create_tag'),
+    url(r'^action/category_create/$', views.CategoryCreate.as_view(),
+        name='category_create'),
+    url(r'^action/tag_create/$', views.TagCreate.as_view(), name='tag_create'),
 
     # search
     url(r'^search/', views.CustomSearchView.as_view(),

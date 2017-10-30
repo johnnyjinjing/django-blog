@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.core.exceptions import PermissionDenied
 
 from .models import UserProfile
-from .forms import UploadAvatarForm
+from .forms import UploadAvatarForm, DisplayNameChangeForm
 from account.decorators import group_required
 
 @method_decorator(login_required, name='dispatch')
@@ -30,7 +30,6 @@ class UserProfileDetailView(DetailView):
         else:
             raise PermissionDenied
 
-
 @login_required
 def upload_avatar(request):
     if request.method == 'POST':
@@ -44,3 +43,17 @@ def upload_avatar(request):
     else:
         form = UploadAvatarForm()
     return render(request, 'account/upload_avatar.html', {'form': form})
+
+@login_required
+def display_name_change(request):
+    if request.method == 'POST':
+        form = DisplayNameChangeForm(request.POST)
+        if form.is_valid():
+            user_profile = UserProfile.objects.get(user__pk=request.user.id)
+            user_profile.display_name = form.cleaned_data['display_name']
+            user_profile.save()
+            return redirect(reverse('user_profile',
+                args=[request.user.user_profile.slug],))
+    else:
+        form = DisplayNameChangeForm()
+    return render(request, 'account/display_name_change.html', {'form': form})

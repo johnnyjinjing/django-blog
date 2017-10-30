@@ -14,9 +14,9 @@
         <h1 class="card-title text-center">{{ post.title }}</h1>
         <!-- author, publish date, number of comments -->
         <ul class="list-inline text-muted small text-center">
-            <li class="list-inline-item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i><a href="#"> {{ post.author }} </a></li>
-            <li class="list-inline-item"><i class="fa fa-calendar-o" aria-hidden="true"></i><a href="#"> {{ post.created_time | date:"Y-m-d" }} </a></li>
-            <li class="list-inline-item"><i class="fa fa-comment-o" aria-hidden="true"></i><a href="#"> {{ post.comment_set.count }} {% if post.comment_set.count == 1%}comment{% else %}comments{% endif %} </a></li>
+            <li class="list-inline-item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i><a href="#"> {% if post.author.user_profile.display_name %}{{ post.author.user_profile.display_name }}{% else %}{{ post.author }}{% endif %}</a></li>
+            <li class="list-inline-item"><i class="fa fa-calendar-o" aria-hidden="true"></i><a href="#"> {{ post.created_time | date:"Y-m-d" }}</a></li>
+            <li class="list-inline-item"><i class="fa fa-comment-o" aria-hidden="true"></i><a href="#"> {{ post.comment_set.count }} {% if post.comment_set.count == 1%}comment{% else %}comments{% endif %}</a></li>
         </ul>
         <!-- post body -->
         <p class="card-text" id="post-body">{{ post.body | safe }}</p>
@@ -25,7 +25,7 @@
     <div class="card-footer text-muted small">
         <div class="row">
             <div class="col text-left">
-                <i class="fa fa-pencil-square-o" aria-hidden="true"></i><a href="#"> {{ post.author }}</a>
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i><a href="#"> {% if post.author.user_profile.display_name %}{{ post.author.user_profile.display_name }}{% else %}{{ post.author }}{% endif %}</a>
             </div>
             <div class="col text-center">
                 <i class="fa fa-calendar-o" aria-hidden="true"></i><a href="#"> {{ post.created_time | date:"Y-m-d" }}</a>
