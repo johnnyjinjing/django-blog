@@ -1,6 +1,6 @@
 {% load i18n %}
-To activate your account on {{ site.name }}, please go to http://{{ site.domain }}{% url 'registration_activate' activation_key %}.
+To activate your account on {{ site.name | safe }}, please go to http://{{ site.domain }}{% url 'registration_activate' activation_key %}.
 
 {% blocktrans %}This activation link is valid for {{ expiration_days }} days.{% endblocktrans %}
 
-{{ site.name }}
+{{ site.name | safe }}

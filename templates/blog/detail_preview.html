@@ -23,7 +23,7 @@
     </div>
     <!-- post misc -->
     <div class="card-footer text-muted small">
-        <div class="row">
+        <div class="row pb-1">
             <div class="col text-left">
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i><a href="#"> {% if post.author.user_profile.display_name %}{{ post.author.user_profile.display_name }}{% else %}{{ post.author }}{% endif %}</a>
             </div>
@@ -35,7 +35,7 @@
             </div>
         </div>
         <hr class="my-1">
-        <div class="row">
+        <div class="row pt-1">
             <span class="col text-left">
                 <i class="fa fa-folder-o" aria-hidden="true"></i><a href="#"> {{ post.category }}</a>
             </span>

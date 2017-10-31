@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^register/$',
         RegistrationView.as_view(form_class=RegistrationFormUniqueEmail),
         name='registration_register'),
+
     # use HTML email
     url(r'^password/reset/$',
         auth_views.PasswordResetView.as_view(
