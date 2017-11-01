@@ -1,3 +1,5 @@
+// blog/fixtures/database_init.json
+
 [
     {
         "model": "sites.site",

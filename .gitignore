@@ -1,12 +1,18 @@
-# secret settings
-settings_email.py
+# settings
+django-blog/settings_email.py
+django-blog/settings_string.py
+django-blog/settings.py
+blog/fixtures/database_init.json
+/my.cnf
 
 # database
 db.sqlite3
-my.cnf
 
 # media
 media/
+
+# static
+static/
 
 # Misc
 .DS_Store

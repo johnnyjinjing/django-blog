@@ -1,3 +1,5 @@
+# django-blog/settings.py
+
 """
 Django settings for django-blog project.
 
