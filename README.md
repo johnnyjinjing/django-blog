@@ -13,3 +13,7 @@ Django Blog is a blog web application built with Django. It allows authorized us
 * Customizable avartar
 * RSS subscription
 * Full text search
+
+## Demo
+
+![](screenshots/demo.png)
